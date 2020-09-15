@@ -9435,14 +9435,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {x: 0, y: 0, z: 0}
-  Speed: 10
-  Gravity: 0
+  Speed: 5
+  Gravity: 10
   Velocity: {x: 0, y: 0, z: 0}
   Explosion: {fileID: 1337198075554910, guid: 4d08d9a8d5457ea4aabc65922b252dcf, type: 3}
   Lifetime: 20
   Power: 20
   KnockbackForce: 10
-  KnockbackRadius: 1
+  KnockbackRadius: 0
   KnockbackDistance: 1
 --- !u!54 &-619336322031039029
 Rigidbody:

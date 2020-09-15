@@ -33,6 +33,10 @@ abstract public class Unit : MonoBehaviour
     {
         Camera camera = Manager.Instance.Camera;
         transform.rotation = Quaternion.LookRotation(-camera.transform.forward);
+
+        float Distance = (camera.transform.position - transform.position).magnitude;
+        float Ratio = Distance / camera.transform.position.magnitude * 0.5f;
+        transform.localScale = new Vector3(Ratio, Ratio, Ratio);
     }
 
     protected void FixedUpdate()
