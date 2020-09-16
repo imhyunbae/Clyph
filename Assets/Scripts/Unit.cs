@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class KnockbackData
 {
-    public Vector2 Force;
+    public Vector3 Force;
     public float Distance;
 }
 
@@ -37,6 +37,9 @@ abstract public class Unit : MonoBehaviour
         float Distance = (camera.transform.position - transform.position).magnitude;
         float Ratio = Distance / camera.transform.position.magnitude * 0.5f;
         transform.localScale = new Vector3(Ratio, Ratio, Ratio);
+
+        if (Target != null)
+            GetComponent<SpriteRenderer>().flipX = Target.transform.position.x > transform.position.x;
     }
 
     protected void FixedUpdate()
@@ -85,7 +88,7 @@ abstract public class Unit : MonoBehaviour
     public void Knockback()
     {
         Collider.enabled = false;
-        transform.Translate(knockbackData.Force * Time.deltaTime);
+        transform.Translate(knockbackData.Force * Time.deltaTime, Space.World);
         knockbackData.Distance -= knockbackData.Force.magnitude * Time.deltaTime;
         if (knockbackData.Distance < 0)
         {

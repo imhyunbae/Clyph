@@ -215,5 +215,5 @@ MonoBehaviour:
   SpeedMultiplier: 0
   Target: {fileID: 0}
   Collider: {fileID: 0}
-  ProjectileObject: {fileID: 1947871717301538, guid: 8455c44af810a2742a669ae15e3b9f4b,
+  AttackClass: {fileID: -6478643286571208842, guid: 8455c44af810a2742a669ae15e3b9f4b,
     type: 3}
