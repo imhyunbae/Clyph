@@ -16,7 +16,7 @@ public class Module : Unit
             if (Target != null && AttackPrefab != null)
             {
                 Quaternion Rotation = AttackPrefab.transform.rotation;
-                GameObject AttackInstance = Instantiate(AttackPrefab, transform.position, Rotation, transform);
+                GameObject AttackInstance = Instantiate(AttackPrefab, transform.position, Rotation, null);
                 if (AttackInstance != null)
                     AttackInstance.GetComponent<BaseAttack>().Setup(this);
                 // Projectile ProjectileComponent = ProjectileInstance.GetComponent<Projectile>();

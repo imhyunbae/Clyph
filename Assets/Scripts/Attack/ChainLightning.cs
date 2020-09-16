@@ -7,21 +7,30 @@ public class ChainLightning : BaseAttack
     public int Count;
     public float Interval;
     public GameObject Prefab;
-    // GameObject Target;
+    GameObject Target;
     Vector3 StartPos;
     Vector3 TargetPos;
     float Timer;
     public override void Setup(Unit InUnit)
     {
+        Target = InUnit.Target;
         StartPos = InUnit.transform.position;
         TargetPos = InUnit.Target.transform.position;
-        Lifetime = Interval * Count;
         AdjustTransform(StartPos, TargetPos);
-        InUnit.Target.GetComponent<Unit>().Damage(Power);
+        
     }
     void Start()
     {
+        Lifetime = Interval * Count;
         Timer = Interval;
+        if (Target == null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Unit TargetUnit = Target.GetComponent<Unit>();
+        if (TargetUnit != null)
+            TargetUnit.Damage(Power);
     }
 
     void Update()
@@ -39,7 +48,7 @@ public class ChainLightning : BaseAttack
         Vector3 Direction = EndPosition - StartPosition;
         float Angle = Mathf.Atan(Direction.z / Direction.x) * Mathf.Rad2Deg;
         transform.eulerAngles = new Vector3(90.0f, -Angle, 90.0f);
-        transform.localScale = new Vector3(1, Direction.magnitude / 2.5f, 1);
+        transform.localScale = new Vector3(1, Direction.magnitude / 5.0f, 1);
     }
 
     Enemy FindEnemy()
@@ -47,7 +56,7 @@ public class ChainLightning : BaseAttack
         List<Enemy> Enemies = Manager.Instance.Enemies;
         foreach (Enemy Each in Enemies)
         {
-            if (Each.gameObject.transform.position != TargetPos)
+            if (Each.gameObject != Target)
                 return Each;
         }
         return null;
@@ -55,9 +64,10 @@ public class ChainLightning : BaseAttack
 
     void Chain()
     {
-        GameObject NextChainLightning = Instantiate(Prefab, transform.position, transform.rotation, transform);
+        GameObject NextChainLightning = Instantiate(Prefab, transform.position, transform.rotation, null);
         Enemy NewTarget = FindEnemy();
         ChainLightning Child = NextChainLightning.GetComponent<ChainLightning>();
+        Child.Target = NewTarget.gameObject;
         Child.StartPos = TargetPos;
         Child.TargetPos = NewTarget.transform.position;
         Child.AdjustTransform(Child.StartPos, Child.TargetPos);
