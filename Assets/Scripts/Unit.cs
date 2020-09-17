@@ -16,6 +16,7 @@ abstract public class Unit : MonoBehaviour
     public float HP;
     public float Speed;
     public float SpeedMultiplier;
+    public ETeam Team;
     public GameObject Target;
     bool IsAttacking = false;
     public KnockbackData knockbackData;
@@ -44,8 +45,9 @@ abstract public class Unit : MonoBehaviour
 
     protected void FixedUpdate()
     {
+        SetTarget();
         if (Target == null)
-            SetTarget();
+            return;
 
         if (Target.transform.position.magnitude > 8)
             knockbackData = null;

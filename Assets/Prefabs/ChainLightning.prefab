@@ -97,5 +97,5 @@ MonoBehaviour:
   Power: 10
   Lifetime: 5
   Count: 3
-  Interval: 0.25
+  Interval: 1
   Prefab: {fileID: 6539607812455861408}

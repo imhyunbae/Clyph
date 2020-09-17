@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public enum ETeam
+{
+    Module, Enemy
+}
+
 public class Manager : MonoBehaviour
 {
     public static Manager Instance;
@@ -25,15 +30,26 @@ public class Manager : MonoBehaviour
         foreach (Module each in Modules)
         {
             GameObject HPBar = Instantiate(HealthBar, Canvas.transform);
+            each.Team = ETeam.Module;
             HPBar.GetComponent<HealthBar>().Setup(each);
         }
 
         foreach (Enemy each in Enemies)
         {
             GameObject HPBar = Instantiate(HealthBar, Canvas.transform);
+            each.Team = ETeam.Enemy;
             HPBar.GetComponent<HealthBar>().Setup(each);
         }
     }
+
+    // public List<Unit> GetUnits(ETeam Team)
+    // {
+    //     switch (Team)
+    //     {
+    //         case ETeam.Module: return Modules;
+    //         case ETeam.Enemy: return Enemies;
+    //     }
+    // }
 
     void Update()
     {

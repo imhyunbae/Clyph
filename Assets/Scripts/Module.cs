@@ -33,6 +33,6 @@ public class Module : Unit
             return;
         List<Enemy> Enemies = Manager.Instance.Enemies;
         Enemies.Sort((Enemy A, Enemy B) => Vector3.Distance(transform.position, A.transform.position).CompareTo(Vector3.Distance(transform.position, B.transform.position)));
-        Target = Enemies[0].gameObject;
+        Target = Enemies.Count > 0 ? Enemies[0].gameObject : null;
     }
 }
