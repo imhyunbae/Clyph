@@ -19,6 +19,7 @@ abstract public class Unit : MonoBehaviour
     public ETeam Team;
     public GameObject Target;
     bool IsAttacking = false;
+    public float SpeedY = 0.0f;
     public KnockbackData knockbackData;
 
     [HideInInspector]
@@ -58,6 +59,10 @@ abstract public class Unit : MonoBehaviour
             return;
         }
 
+        SpeedY = Mathf.Max(SpeedY - 9.8f * Time.deltaTime, -10.0f);
+        float Y = Mathf.Max(transform.position.y + SpeedY * Time.deltaTime, 0.0f);
+        transform.position = new Vector3(transform.position.x, Y, transform.position.z);
+
         Vector3 Distance = Target.transform.position - transform.position;
         if (Distance.magnitude > Range)
         {
@@ -68,7 +73,7 @@ abstract public class Unit : MonoBehaviour
             }
 
             Vector3 Displacement = Distance.normalized * Speed * SpeedMultiplier * Time.fixedDeltaTime;
-            transform.Translate(Displacement, Space.World);
+            transform.position += Displacement;
         }
         else
         {

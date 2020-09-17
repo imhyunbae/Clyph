@@ -27,6 +27,7 @@ public class ChainLightning : BaseAttack
         }
         else
         {
+            Targets.Sort((Unit A, Unit B) => Vector3.Distance(transform.position, A.transform.position).CompareTo(Vector3.Distance(transform.position, B.transform.position)));
             foreach (Unit Target in Targets)
             {
                 if (Target != null)
@@ -60,16 +61,6 @@ public class ChainLightning : BaseAttack
         transform.eulerAngles = new Vector3(90.0f, -Angle, 90.0f);
         transform.localScale = new Vector3(1, Direction.magnitude / 5.0f, 1);
     }
-
-    // Enemy FindEnemy()
-    // {
-    //     foreach (GameObject Target in Targets)
-    //     {
-    //         if (Target != null)
-    //             return Target;
-    //     }
-    //     return null;
-    // }
 
     void Chain()
     {
