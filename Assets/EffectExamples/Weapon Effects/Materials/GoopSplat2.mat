@@ -115,7 +115,7 @@ Material:
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19117647, g: 0.19117647, b: 0.19117647, a: 1}
     - _TintColor: {r: 0.42891267, g: 0.5660378, b: 0.14150941, a: 1}
---- !u!114 &995847455439117700
+--- !u!114 &3244991480831774942
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

@@ -14,7 +14,6 @@ public class ChainLightning : BaseAttack
     float Timer;
     public override void Setup(Unit InUnit)
     {
-        Targets = FindObjectsOfType<Unit>().Where(x => x.Team == ETeam.Enemy).ToList();
         StartPos = InUnit.transform.position;
     }
     void Start()
@@ -26,10 +25,14 @@ public class ChainLightning : BaseAttack
             Destroy(gameObject);
         }
         else
-        {
+        {   
+            Targets = FindObjectsOfType<Unit>().Where(x => x.Team == ETeam.Enemy && x != null).ToList();
             Targets.Sort((Unit A, Unit B) => Vector3.Distance(transform.position, A.transform.position).CompareTo(Vector3.Distance(transform.position, B.transform.position)));
             foreach (Unit Target in Targets)
             {
+                
+
+
                 if (Target != null)
                 {
                     TargetPos = Target.transform.position;
@@ -40,6 +43,7 @@ public class ChainLightning : BaseAttack
                 }
             }
         }
+       
     }
 
     void Update()
