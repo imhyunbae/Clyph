@@ -5,17 +5,22 @@ using System.Linq;
 
 public class Enemy : Unit
 {
+    public float Power;
     public override IEnumerator Attack()
     {
         while (true)
         {
             SetTarget();
-            // if (Target != null && ProjectileObject != null)
-            // {
-            //     GameObject ProjectileInstance = Instantiate(ProjectileObject, transform.position, Quaternion.identity, transform);
-            //     Projectile ProjectileComponent = ProjectileInstance.GetComponent<Projectile>();
-            //     ProjectileComponent.Target = Target.transform.position;
-            // }
+            if (Target != null)
+            {
+                Unit UnitComponent = Target.GetComponent<Unit>();
+                if (UnitComponent != null)
+                    UnitComponent.Damage(Power);
+
+                IceWall IceWallComponent = Target.GetComponent<IceWall>();
+                if (IceWallComponent != null)
+                    IceWallComponent.Damage(Power);
+            }
             yield return new WaitForSeconds(Interval);
         }
     }
@@ -31,7 +36,14 @@ public class Enemy : Unit
         if (Manager.Instance == null)
             return;
         List<Module> Modules = Manager.Instance.Modules;
-        Modules.Sort((Module A, Module B) => Vector3.Distance(transform.position, A.transform.position).CompareTo(Vector3.Distance(transform.position, B.transform.position)));
-        Target = Modules[0].gameObject;
+        List<IceWall> IceWalls = FindObjectsOfType<IceWall>().Where(x => x != null).ToList();
+        List<GameObject> Objects = new List<GameObject>();
+        foreach (Module each in Modules)
+            Objects.Add(each.gameObject);
+        foreach(IceWall each in IceWalls)
+            Objects.Add(each.gameObject);
+
+        Objects.Sort((GameObject A, GameObject B) => Vector3.Distance(transform.position, A.transform.position).CompareTo(Vector3.Distance(transform.position, B.transform.position)));
+        Target = Objects[0];
     }
 }

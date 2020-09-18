@@ -42,13 +42,14 @@ public class Manager : MonoBehaviour
         }
     }
 
-    // public List<Unit> GetUnits(ETeam Team)
+    // public ResetTarget(ETeam team, List<GameObject> Targets)
     // {
-    //     switch (Team)
-    //     {
-    //         case ETeam.Module: return Modules;
-    //         case ETeam.Enemy: return Enemies;
-    //     }
+    //     StartCoroutine(AssignTarget());
+    // }
+
+    // IEnumerator AssignTarget()
+    // {
+
     // }
 
     void Update()

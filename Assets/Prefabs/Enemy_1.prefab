@@ -213,5 +213,8 @@ MonoBehaviour:
   HP: 50
   Speed: 2
   SpeedMultiplier: 0
+  Team: 0
   Target: {fileID: 0}
+  SpeedY: 0
   Collider: {fileID: 0}
+  Power: 10
