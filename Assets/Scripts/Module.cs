@@ -5,25 +5,17 @@ using System.Linq;
 
 public class Module : Unit
 {
-    // public GameObject ProjectileObject;
     public GameObject AttackPrefab;
 
-    public override IEnumerator Attack()
+    public override void Attack()
     {
-        while (true)
+        SetTarget();
+        if (Target != null && AttackPrefab != null)
         {
-            SetTarget();
-            if (Target != null && AttackPrefab != null)
-            {
-                Quaternion Rotation = AttackPrefab.transform.rotation;
-                GameObject AttackInstance = Instantiate(AttackPrefab, transform.position, Rotation, null);
-                if (AttackInstance != null)
-                    AttackInstance.GetComponent<BaseAttack>().Setup(this);
-                // Projectile ProjectileComponent = ProjectileInstance.GetComponent<Projectile>();
-                // if (ProjectileComponent != null)
-                //     ProjectileComponent.Target = Target.transform.position;
-            }
-            yield return new WaitForSeconds(Interval);
+            Quaternion Rotation = AttackPrefab.transform.rotation;
+            GameObject AttackInstance = Instantiate(AttackPrefab, transform.position, Rotation, null);
+            if (AttackInstance != null)
+                AttackInstance.GetComponent<BaseAttack>().Setup(this);
         }
     }
 

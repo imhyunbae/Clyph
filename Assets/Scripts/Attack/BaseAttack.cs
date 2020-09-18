@@ -12,6 +12,11 @@ abstract public class BaseAttack : MonoBehaviour
     {
         Lifetime -= Time.deltaTime;
         if (Lifetime <= 0)
-            Destroy(gameObject);
+            Die();
+    }
+
+    public virtual void Die()
+    {
+        Destroy(gameObject);
     }
 }

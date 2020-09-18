@@ -18,17 +18,18 @@ abstract public class Unit : MonoBehaviour
     public float SpeedMultiplier;
     public ETeam Team;
     public GameObject Target;
-    bool IsAttacking = false;
     public float SpeedY = 0.0f;
     public KnockbackData knockbackData;
 
     [HideInInspector]
     public BoxCollider Collider;
+    float AttackTimer = 0.0f;
 
     protected void Start()
     {
         SpeedMultiplier = 1.0f;
         Collider = GetComponent<BoxCollider>();
+        AttackTimer = Interval;
     }
 
     protected void Update()
@@ -66,21 +67,17 @@ abstract public class Unit : MonoBehaviour
         Vector3 Distance = Target.transform.position - transform.position;
         if (Distance.magnitude > Range)
         {
-            if (IsAttacking)
-            {
-                StopCoroutine(Attack());
-                IsAttacking = false;
-            }
-
             Vector3 Displacement = Distance.normalized * Speed * SpeedMultiplier * Time.fixedDeltaTime;
             transform.position += Displacement;
+            AttackTimer = Interval;
         }
         else
         {
-            if (!IsAttacking)
+            AttackTimer += Time.fixedDeltaTime;
+            if (AttackTimer >= Interval)
             {
-                StartCoroutine(Attack());
-                IsAttacking = true;
+                Attack();
+                AttackTimer = 0.0f;
             }
         }
     }
@@ -109,6 +106,6 @@ abstract public class Unit : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public abstract IEnumerator Attack();
+    public abstract void Attack();
     public abstract void SetTarget();
 }

@@ -6,22 +6,18 @@ using System.Linq;
 public class Enemy : Unit
 {
     public float Power;
-    public override IEnumerator Attack()
+    public override void Attack()
     {
-        while (true)
+        SetTarget();
+        if (Target != null)
         {
-            SetTarget();
-            if (Target != null)
-            {
-                Unit UnitComponent = Target.GetComponent<Unit>();
-                if (UnitComponent != null)
-                    UnitComponent.Damage(Power);
+            Unit UnitComponent = Target.GetComponent<Unit>();
+            if (UnitComponent != null)
+                UnitComponent.Damage(Power);
 
-                IceWall IceWallComponent = Target.GetComponent<IceWall>();
-                if (IceWallComponent != null)
-                    IceWallComponent.Damage(Power);
-            }
-            yield return new WaitForSeconds(Interval);
+            IceWall IceWallComponent = Target.GetComponent<IceWall>();
+            if (IceWallComponent != null)
+                IceWallComponent.Damage(Power);
         }
     }
 

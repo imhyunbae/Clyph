@@ -61,6 +61,7 @@ public class IceWall : BaseAttack
         for (int i = 0; i < Count; i++)
         {
             float Angle = MinAngle + (MaxAngle - MinAngle) * (0.5f + (float)i) / Count;
+            float Radius = DirectionA.magnitude * 0.5f;
             Vector3 Offset = new Vector3(Mathf.Cos(Angle * Mathf.Deg2Rad) * Radius, 0, Mathf.Sin(Angle * Mathf.Deg2Rad) * Radius);
             Vector3 Position = transform.position + Offset;
             GameObject AttackInstance = Instantiate(AttackPrefab, Position, transform.rotation, null);
@@ -75,12 +76,6 @@ public class IceWall : BaseAttack
             }
         }
 
-        // foreach (Unit Target in Targets)
-        // {
-        //     Children.Sort((GameObject A, GameObject B) => Vector3.Distance(Target.transform.position, A.transform.position).CompareTo(Vector3.Distance(Target.transform.position, B.transform.position)));
-        //     Target.Target = Children.First();
-        // }
-
         Destroy(gameObject);
     }
 
@@ -88,7 +83,17 @@ public class IceWall : BaseAttack
     {
         Health -= Power;
         if (Health < 0)
-            Destroy(gameObject);
+            Die();    
+    }
+
+    public override void Die()
+    {
+        List<Unit> Targets = FindObjectsOfType<Unit>().Where(x => x.Team == ETeam.Enemy && x != null).ToList();
+        Targets = Targets.Where(x => Vector3.Distance(transform.position, x.transform.position) < Radius).ToList();
+        foreach (Unit Target in Targets)
+            Target.Damage(Power);
+        
+        base.Die();
     }
     
 }
