@@ -26,10 +26,7 @@ abstract public class Unit : MonoBehaviour
     float AttackTimer = 0.0f;
 
     protected void Start()
-    {
-
-        DontDestroyOnLoad(gameObject);
-
+    {   
         SpeedMultiplier = 1.0f;
         Collider = GetComponent<BoxCollider>();
         AttackTimer = Interval;
