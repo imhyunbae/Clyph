@@ -8,6 +8,11 @@ public class KnockbackData
     public float Distance;
 }
 
+public enum ETeam
+{
+    Module, Enemy
+}
+
 abstract public class Unit : MonoBehaviour
 {
     public float Range;
