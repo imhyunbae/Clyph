@@ -27,6 +27,9 @@ abstract public class Unit : MonoBehaviour
 
     protected void Start()
     {
+
+        DontDestroyOnLoad(gameObject);
+
         SpeedMultiplier = 1.0f;
         Collider = GetComponent<BoxCollider>();
         AttackTimer = Interval;
@@ -34,6 +37,7 @@ abstract public class Unit : MonoBehaviour
 
     protected void Update()
     {
+
         Camera camera = Manager.Instance.Camera;
         transform.rotation = Quaternion.LookRotation(-camera.transform.forward);
 
@@ -108,4 +112,6 @@ abstract public class Unit : MonoBehaviour
 
     public abstract void Attack();
     public abstract void SetTarget();
+
+
 }
