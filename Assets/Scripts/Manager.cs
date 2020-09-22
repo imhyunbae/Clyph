@@ -3,9 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public enum ETeam
+public enum Phase
 {
-    Module, Enemy
+    Battle, Break
+}
+
+[System.Serializable]
+public class Stage
+{
+    public Phase phase;
+    public float Duration;
+    public string Title;
 }
 
 public class Manager : MonoBehaviour
@@ -16,9 +24,11 @@ public class Manager : MonoBehaviour
     public Canvas Canvas;
     public GameObject HealthBar;
     public Camera Camera;
-    private bool WorldCamera;
-    private Vector3 TargetCameraPosition;
-    private Quaternion TargetCameraRotation;
+    // private bool WorldCamera;
+    // private Vector3 TargetCameraPosition;
+    // private Quaternion TargetCameraRotation;
+    public List<Stage> Stages;
+    public float TimeLeft { get { return Stages.First().Duration; }}
 
     void Start()
     {
@@ -42,6 +52,32 @@ public class Manager : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        if (Stages.Count == 0)
+            return; // game end
+
+        Stage currentStage = Stages.First();
+        if (currentStage.phase == Phase.Break)
+        {
+            currentStage.Duration -= Time.deltaTime;
+            if (currentStage.Duration <= 0.0f)
+                Stages.RemoveAt(0);
+        }
+    }
+
+    public void SkipBreak()
+    {
+        if (Stages.Count == 0)
+            return;
+
+        Stage currentStage = Stages.First();
+        if (currentStage.phase != Phase.Break)
+            return;
+        
+        Stages.RemoveAt(0);
+    }
+
     // public ResetTarget(ETeam team, List<GameObject> Targets)
     // {
     //     StartCoroutine(AssignTarget());
@@ -52,8 +88,8 @@ public class Manager : MonoBehaviour
 
     // }
 
-    void Update()
-    {
+    // void Update()
+    // {
         // if (Input.GetKeyDown(KeyCode.C))
         // {
         //     WorldCamera = !WorldCamera;
@@ -72,5 +108,5 @@ public class Manager : MonoBehaviour
         // float Multiplier = 10;
         // Camera.transform.position = Vector3.Lerp(Camera.transform.position, TargetCameraPosition, Time.deltaTime * Multiplier);
         // Camera.transform.rotation = Quaternion.Lerp(Camera.transform.rotation, TargetCameraRotation, Time.deltaTime * Multiplier);
-    }
+    // }
 }

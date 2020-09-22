@@ -2666,6 +2666,22 @@ MonoBehaviour:
   HealthBar: {fileID: 1637175155356587597, guid: 7fc0272ccc985d5409c60d391e227275,
     type: 3}
   Camera: {fileID: 519420031}
+  Stages:
+  - phase: 0
+    Duration: 60
+    Title: 1st wave
+  - phase: 1
+    Duration: 30
+    Title: break(30s)
+  - phase: 0
+    Duration: 60
+    Title: 2nd wave
+  - phase: 1
+    Duration: 30
+    Title: break(30s)
+  - phase: 0
+    Duration: 60
+    Title: final wave
 --- !u!1001 &769085350
 PrefabInstance:
   m_ObjectHideFlags: 0
