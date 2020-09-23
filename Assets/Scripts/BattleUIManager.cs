@@ -13,6 +13,9 @@ public class BattleUIManager : MonoBehaviour
     [Header ("SP")]
     [SerializeField] Text SP_Text;
 
+    [Header ("Wave")]
+    [SerializeField] Text Wave_Text;
+
     [Header("Creature")]
     [SerializeField] RectTransform CreatureList;
     [SerializeField] GameObject CreatureListElementPrefeb;
@@ -70,6 +73,8 @@ public class BattleUIManager : MonoBehaviour
     private void LateUpdate()
     {
         SP_Text.text = "SP : " + BattleInventory.SP.ToString();
+        var waveCount = Manager.Instance.nthWave;
+        Wave_Text.text = "Wave " + waveCount.Item1.ToString() + "/" + waveCount.Item2.ToString();
 
         for (int i = 0; i < 4; i++)
             Spirit_Text[i].text = "X" +  BattleInventory.SpiritCount[i].ToString();
@@ -77,7 +82,7 @@ public class BattleUIManager : MonoBehaviour
 
         foreach (var iter in BattleInventory.DictionaryModule)
         {
-            Transform child = CreatureList.FindChild(iter.Key.ToString());
+            Transform child = CreatureList.Find(iter.Key.ToString());
             if (child != null)
             {
                     if (BattleInventory.DictionaryModule[iter.Key] == 0)

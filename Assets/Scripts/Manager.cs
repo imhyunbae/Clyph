@@ -28,7 +28,20 @@ public class Manager : MonoBehaviour
     // private Vector3 TargetCameraPosition;
     // private Quaternion TargetCameraRotation;
     public List<Stage> Stages;
-    public float TimeLeft { get { return Stages.First().Duration; }}
+    int CurrentStageIndex;
+    public Stage CurrentStage { get { return Stages[CurrentStageIndex]; }}
+    public (int, int) nthWave { get { 
+        int nth = 0, total = 0;
+        for (int i = 0; i < Stages.Count; i++)
+        {
+            if (Stages[i].phase != Phase.Battle)
+                continue;
+            if (i <= CurrentStageIndex)
+                nth += 1;
+            total += 1;
+        }
+        return (nth, total);
+    }}
 
     void Start()
     {
@@ -57,25 +70,23 @@ public class Manager : MonoBehaviour
         if (Stages.Count == 0)
             return; // game end
 
-        Stage currentStage = Stages.First();
-        if (currentStage.phase == Phase.Break)
+        if (CurrentStage.phase == Phase.Break)
         {
-            currentStage.Duration -= Time.deltaTime;
-            if (currentStage.Duration <= 0.0f)
+            CurrentStage.Duration -= Time.deltaTime;
+            if (CurrentStage.Duration <= 0.0f)
                 Stages.RemoveAt(0);
         }
     }
 
     public void SkipBreak()
     {
-        if (Stages.Count == 0)
+        if (Stages.Count == CurrentStageIndex)
             return;
 
-        Stage currentStage = Stages.First();
-        if (currentStage.phase != Phase.Break)
+        if (CurrentStage.phase != Phase.Break)
             return;
         
-        Stages.RemoveAt(0);
+        CurrentStageIndex += 1;
     }
 
     // public ResetTarget(ETeam team, List<GameObject> Targets)

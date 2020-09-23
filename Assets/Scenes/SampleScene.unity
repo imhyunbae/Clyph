@@ -5250,6 +5250,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BattleInventory: {fileID: 186203874}
   SP_Text: {fileID: 89359046}
+  Wave_Text: {fileID: 645082320}
   CreatureList: {fileID: 2113701385}
   CreatureListElementPrefeb: {fileID: 5553720436087465350, guid: 1e0233d76bf1bc1478927f87e1e2aec3,
     type: 3}
@@ -6991,7 +6992,22 @@ MonoBehaviour:
   Canvas: {fileID: 0}
   HealthBar: {fileID: 0}
   Camera: {fileID: 519420031}
-  Stages: []
+  Stages:
+  - phase: 0
+    Duration: 60
+    Title: 
+  - phase: 1
+    Duration: 30
+    Title: 
+  - phase: 0
+    Duration: 60
+    Title: 
+  - phase: 1
+    Duration: 30
+    Title: 
+  - phase: 0
+    Duration: 60
+    Title: 
 --- !u!1001 &1929751431
 PrefabInstance:
   m_ObjectHideFlags: 0
