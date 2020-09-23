@@ -1,0 +1,40 @@
+diff a/Assets/Scenes/SampleScene.unity b/Assets/Scenes/SampleScene.unity	(rejected hunks)
+@@ -3721,6 +3721,7 @@
+   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+   m_Name: 
+   m_EditorClassIdentifier: 
++<<<<<<< HEAD
+   m_Material: {fileID: 0}
+   m_Color: {r: 1, g: 1, b: 1, a: 1}
+   m_RaycastTarget: 1
+@@ -3746,6 +3747,30 @@
+   m_PrefabAsset: {fileID: 0}
+   m_GameObject: {fileID: 754533794}
+   m_CullTransparentMesh: 0
++=======
++  Modules: []
++  Enemies: []
++  Canvas: {fileID: 1425906120}
++  HealthBar: {fileID: 1637175155356587597, guid: 7fc0272ccc985d5409c60d391e227275,
++    type: 3}
++  Camera: {fileID: 519420031}
++  Stages:
++  - phase: 0
++    Duration: 60
++    Title: 1st wave
++  - phase: 1
++    Duration: 30
++    Title: break(30s)
++  - phase: 0
++    Duration: 60
++    Title: 2nd wave
++  - phase: 1
++    Duration: 30
++    Title: break(30s)
++  - phase: 0
++    Duration: 60
++    Title: final wave
++>>>>>>> 0e16d461667a6940b9dc668b3a0e56b44203e297
+ --- !u!1001 &769085350
+ PrefabInstance:
+   m_ObjectHideFlags: 0
