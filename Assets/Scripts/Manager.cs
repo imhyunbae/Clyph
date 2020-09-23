@@ -28,7 +28,7 @@ public class Manager : MonoBehaviour
     // private Vector3 TargetCameraPosition;
     // private Quaternion TargetCameraRotation;
     public List<Stage> Stages;
-    int CurrentStageIndex;
+    int CurrentStageIndex = 0;
     public Stage CurrentStage { get { return Stages[CurrentStageIndex]; }}
     public (int, int) nthWave { get { 
         int nth = 0, total = 0;
@@ -48,7 +48,6 @@ public class Manager : MonoBehaviour
         Manager.Instance = this;
 
         Modules = FindObjectsOfType<Module>().ToList();
-        Enemies = FindObjectsOfType<Enemy>().ToList();
 
         foreach (Module each in Modules)
         {
@@ -56,13 +55,8 @@ public class Manager : MonoBehaviour
             each.Team = ETeam.Module;
             HPBar.GetComponent<HealthBar>().Setup(each);
         }
-
-        foreach (Enemy each in Enemies)
-        {
-            GameObject HPBar = Instantiate(HealthBar, Canvas.transform);
-            each.Team = ETeam.Enemy;
-            HPBar.GetComponent<HealthBar>().Setup(each);
-        }
+        
+        StageWillBegin();
     }
 
     void Update()
@@ -74,19 +68,44 @@ public class Manager : MonoBehaviour
         {
             CurrentStage.Duration -= Time.deltaTime;
             if (CurrentStage.Duration <= 0.0f)
-                Stages.RemoveAt(0);
+                NextStage();
         }
     }
 
-    public void SkipBreak()
+    public void NextStage()
     {
         if (Stages.Count == CurrentStageIndex)
             return;
 
-        if (CurrentStage.phase != Phase.Break)
-            return;
-        
+        StageWillFinished();
         CurrentStageIndex += 1;
+        StageWillBegin();
+    }
+
+    void StageWillFinished()
+    {
+
+    }
+
+    void StageWillBegin()
+    {
+        if (CurrentStage.phase == Phase.Battle)
+        {
+            Enemies = FindObjectsOfType<Enemy>().ToList();
+            foreach (Enemy each in Enemies)
+            {
+                GameObject HPBar = Instantiate(HealthBar, Canvas.transform);
+                each.Team = ETeam.Enemy;
+                HPBar.GetComponent<HealthBar>().Setup(each);
+            }
+        }
+    }
+
+    public void OnEnemyDie(Enemy DeadEnemy)
+    {
+        Enemies.Remove(DeadEnemy);
+        if (Enemies.Count == 0)
+            NextStage();
     }
 
     // public ResetTarget(ETeam team, List<GameObject> Targets)

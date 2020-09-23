@@ -23,7 +23,7 @@ public class Enemy : Unit
 
     public override void Die()
     {
-        Manager.Instance.Enemies.Remove(this);
+        Manager.Instance.OnEnemyDie(this);
         base.Die();
     }
 
