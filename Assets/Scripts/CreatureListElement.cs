@@ -28,12 +28,6 @@ public class CreatureListElement : MonoBehaviour
 
     public void OnButtonClick()
     {
-        if (BattleUIManager.Instance.HandleCreature == null)
-        {
-            GameObject Unit = GameObject.Instantiate(BattleUIManager.Instance.CreaturePrefeb);
-            Unit.transform.position = Manager.Instance.Camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0f));
-            Unit.GetComponent<Unit>().Battle = false;
-            BattleUIManager.Instance.HandleCreature = Unit.GetComponent<Unit>();
-        }
+        BattleUIManager.Instance.SelectUnit(Kind);
     }
 }

@@ -6,6 +6,8 @@ using UnityEngine.EventSystems;
 public class Grid : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public bool PointerOver = false;
+    public Unit AttachedUnit = null;
+
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
     {
         GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 0.25f);
@@ -15,7 +17,7 @@ public class Grid : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
     {
         GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.25f);
-        PointerOver = false; 
+        PointerOver = false;
     }
 
     private void Start()
@@ -26,37 +28,14 @@ public class Grid : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void Update()
     {
-        if(Input.GetMouseButtonDown(0) && PointerOver)
+        if (PointerOver)
         {
-            if (BattleUIManager.Instance.HandleTimer > BattleUIManager.Instance.HandleDelay)
-            {
-                if (Input.GetMouseButtonDown(0))
-                {
-                    BattleUIManager.Instance.HandleTimer = 0f;
-                    BattleUIManager.Instance.HandleCreature.transform.position = Manager.Instance.Camera.ScreenToWorldPoint(this.GetComponent<RectTransform>().anchoredPosition);
-                    Ray ray = Manager.Instance.Camera.ScreenPointToRay((this.GetComponent<RectTransform>().position));
-                    ray.origin = BattleUIManager.Instance.HandleCreature.transform.position;
-                   
-                    RaycastHit hit = new RaycastHit();
-                    if (Physics.Raycast(ray, out hit, 5000000, LayerMask.GetMask("Map")))
-                    {
-                        BattleUIManager.Instance.HandleCreature.transform.position = hit.point + new Vector3(0, 0.5f, 0);
-                    }
+            if (Input.GetMouseButtonDown(0))
+                BattleUIManager.Instance.OnGridDropSuccess(GetComponent<RectTransform>().position);
 
-
-                    BattleUIManager.Instance.HandleCreature.GetComponent<Unit>().Battle = true;
-                    BattleUIManager.Instance.HandleCreature = null;
-
-                }
-                if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Escape))
-                {
-                    BattleUIManager.Instance.HandleTimer = 0f;
-                    GameObject.Destroy(BattleUIManager.Instance.HandleCreature.gameObject);
-                    BattleUIManager.Instance.HandleCreature = null;
-                }
-            }
+            if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Escape))
+                BattleUIManager.Instance.OnGridDropFailed();
         }
-
-        
     }
+
 }

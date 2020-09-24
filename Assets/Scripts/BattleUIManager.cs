@@ -10,10 +10,10 @@ public class BattleUIManager : MonoBehaviour
 
     public BattleInventory BattleInventory;
 
-    [Header ("SP")]
+    [Header("SP")]
     [SerializeField] Text SP_Text;
 
-    [Header ("Wave")]
+    [Header("Wave")]
     [SerializeField] Text Wave_Text;
 
     [Header("Creature")]
@@ -24,11 +24,11 @@ public class BattleUIManager : MonoBehaviour
     public float HandleTimer = 0f;
     public float HandleDelay = 1.5f;
 
-   [Header("Spirit")]
+    [Header("Spirit")]
     [SerializeField] Text[] Spirit_Text = new Text[4];
 
     private void Awake()
-    {     
+    {
         //싱글톤 변수 초기화
         Instance = this;
 
@@ -36,25 +36,66 @@ public class BattleUIManager : MonoBehaviour
 
     void Start()
     {
-        
+
+    }
+
+    public void SelectUnit(ModuleKind _Kind)
+    {
+        if (HandleCreature != null)
+            return;
+
+        GameObject Unit = GameObject.Instantiate(CreaturePrefeb);
+        HandleCreature = Unit.GetComponent<Unit>();
+        HandleCreature.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0f));
+        HandleCreature.Battle = false;
+
+        ((Module)HandleCreature).Kind = _Kind;
+    }
+
+    public void OnGridDropSuccess(Vector3 _ScreenDropPosition)
+    {
+        if (HandleCreature == null  ||  HandleTimer < HandleDelay)
+            return;
+
+        HandleTimer = 0f;
+        print(_ScreenDropPosition);
+        Ray ray = RectTransformUtility.ScreenPointToRay(Camera.main,_ScreenDropPosition);
+
+        RaycastHit hit = new RaycastHit();
+        if (Physics.Raycast(ray, out hit, float.MaxValue, LayerMask.GetMask("Map")) == true)
+        {
+            HandleCreature.transform.position = hit.point + new Vector3(0, 0.5f, 0);
+            HandleCreature.Battle = true;
+            HandleCreature.StartPos = HandleCreature.transform.position;
+            Manager.Instance.RegisterUnit(BattleUIManager.Instance.HandleCreature.gameObject);
+            BattleInventory.DictionaryModule[((Module)HandleCreature).Kind]--;
+        }
+
+        HandleCreature = null;
+    }
+
+    public void OnGridDropFailed()
+    {
+        if (HandleCreature == null)
+            return;
+
+        HandleTimer = 0f;
+        GameObject.Destroy(HandleCreature.gameObject);
+        HandleCreature = null;
     }
 
     void Update()
     {
-        if(HandleCreature != null)
+        if (HandleCreature != null)
         {
             HandleTimer += Time.deltaTime;
-            Ray ray=  Manager.Instance.Camera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit = new RaycastHit();
-            if (Physics.Raycast(ray, out hit,5000000,LayerMask.GetMask("Map")))
-            {
-           //     print(hit.transform.gameObject.tag);
-                HandleCreature.transform.position = hit.point + new Vector3(0,0.5f,0); 
-               
-               
-            }
-
            
+            Ray ray = Manager.Instance.Camera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit = new RaycastHit();
+            if (Physics.Raycast(ray, out hit, 5000000, LayerMask.GetMask("Map")))
+            {
+                HandleCreature.transform.position = hit.point + new Vector3(0, 0.5f, 0);
+            }
         }
     }
 
@@ -65,20 +106,20 @@ public class BattleUIManager : MonoBehaviour
         Wave_Text.text = "Wave " + waveCount.Item1.ToString() + "/" + waveCount.Item2.ToString();
 
         for (int i = 0; i < 4; i++)
-            Spirit_Text[i].text = "X" +  BattleInventory.SpiritCount[i].ToString();
+            Spirit_Text[i].text = "X" + BattleInventory.SpiritCount[i].ToString();
 
 
-        foreach (var iter in BattleInventory.DictionaryModule)
+        foreach (var iter in BattleInventory.DictionaryModule)                                                   
         {
             Transform child = CreatureList.Find(iter.Key.ToString());
             if (child != null)
             {
-                    if (BattleInventory.DictionaryModule[iter.Key] == 0)
-                    {
-                        GameObject.Destroy(child.gameObject);
-                        SortCreatureList();
-                    }
-                    else child.GetComponent<CreatureListElement>().Count = iter.Value;
+                if (BattleInventory.DictionaryModule[iter.Key] == 0)
+                {
+                    GameObject.Destroy(child.gameObject);
+                    SortCreatureList();
+                }
+                else child.GetComponent<CreatureListElement>().Count = iter.Value;
             }
             else
             {

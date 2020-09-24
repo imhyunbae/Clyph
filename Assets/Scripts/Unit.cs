@@ -15,9 +15,9 @@ public enum ETeam
 
 abstract public class Unit : MonoBehaviour
 {
+    public Vector3 StartPos;
+
     public bool Battle;
-
-
     public float Range;
     public float Interval;
     public float MaxHP;
@@ -35,11 +35,19 @@ abstract public class Unit : MonoBehaviour
 
     protected void Start()
     {
+        StartPos = transform.position;
         Battle = true;
         SpeedMultiplier = 1.0f;
         Collider = GetComponent<BoxCollider>();
         AttackTimer = Interval;
         GetComponent<SpriteRenderer>().flipX = true;
+
+        Camera camera = Manager.Instance.Camera;
+        transform.rotation = Quaternion.LookRotation(-camera.transform.forward);
+
+        float Distance = (camera.transform.position - transform.position).magnitude;
+        float Ratio = Distance / camera.transform.position.magnitude * 0.5f;
+        transform.localScale = new Vector3(Ratio, Ratio, Ratio);
     }
 
     protected void Update()

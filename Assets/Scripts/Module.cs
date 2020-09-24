@@ -5,8 +5,15 @@ using System.Linq;
 
 public class Module : Unit
 {
-
+    public ModuleKind Kind;
     public GameObject AttackPrefab;
+
+    public override void Die()
+    {
+        Manager.Instance.OnModuleDie(this);
+        base.Die();
+    }
+
 
     public override void Attack()
     {

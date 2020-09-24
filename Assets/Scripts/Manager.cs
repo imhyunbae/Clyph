@@ -28,7 +28,7 @@ public class Manager : MonoBehaviour
     // private Vector3 TargetCameraPosition;
     // private Quaternion TargetCameraRotation;
     public List<Stage> Stages;
-    int CurrentStageIndex = 0;
+    public int CurrentStageIndex = 0;
     public Stage CurrentStage { get { return Stages[CurrentStageIndex]; }}
     public (int, int) nthWave { get { 
         int nth = 0, total = 0;
@@ -46,6 +46,25 @@ public class Manager : MonoBehaviour
     {
         Manager.Instance = this;
     }
+    public void RegisterUnit(GameObject _Unit)
+    {
+        Unit unit = _Unit.GetComponent<Unit>();
+        GameObject HPBar = Instantiate(HealthBar, Canvas.transform);
+        HPBar.GetComponent<HealthBar>().Setup(unit);
+
+        if (_Unit.GetComponent<Module>() != null )
+        {
+            Modules.Add(_Unit.GetComponent<Module>());
+            unit.Team = ETeam.Module;
+        }
+        if (_Unit.GetComponent<Enemy>() != null)
+        {
+            Enemies.Add(_Unit.GetComponent<Enemy>());
+            unit.Team = ETeam.Enemy;
+        }
+    }
+
+
 
 
     void Start()
@@ -71,6 +90,7 @@ public class Manager : MonoBehaviour
         if (CurrentStage.phase == Phase.Break)
         {
             CurrentStage.Duration -= Time.deltaTime;
+
             if (CurrentStage.Duration <= 0.0f)
                 NextStage();
         }
@@ -102,7 +122,35 @@ public class Manager : MonoBehaviour
                 each.Team = ETeam.Enemy;
                 HPBar.GetComponent<HealthBar>().Setup(each);
             }
+
+            foreach (var each in Enemies)
+                each.Battle = true;
+
+            foreach (var each in Modules)
+                each.Battle = true;
         }
+
+        if (CurrentStage.phase == Phase.Break)
+        {
+            foreach (var each in Enemies)
+            {
+                each.Battle = false;
+                each.transform.position = each.StartPos;
+            }
+
+            foreach (var each in Modules)
+            {
+                each.Battle = false;
+                each.transform.position = each.StartPos;
+            }
+
+        }
+    }
+    public void OnModuleDie(Module DeadModule)
+    {
+        Modules.Remove(DeadModule);
+        if (Modules.Count == 0)
+            return;//game over;
     }
 
     public void OnEnemyDie(Enemy DeadEnemy)
