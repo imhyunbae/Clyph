@@ -21,8 +21,8 @@ public class BattleUIManager : MonoBehaviour
     [SerializeField] GameObject CreatureListElementPrefeb;
     [SerializeField] public GameObject CreaturePrefeb;
     public Unit HandleCreature = null;
-    float HandleTimer = 0f;
-    float HandleDelay = 1.5f;
+    public float HandleTimer = 0f;
+    public float HandleDelay = 1.5f;
 
    [Header("Spirit")]
     [SerializeField] Text[] Spirit_Text = new Text[4];
@@ -48,25 +48,13 @@ public class BattleUIManager : MonoBehaviour
             RaycastHit hit = new RaycastHit();
             if (Physics.Raycast(ray, out hit,5000000,LayerMask.GetMask("Map")))
             {
-                print(hit.transform.gameObject.tag);
-                HandleCreature.transform.position = hit.point + new Vector3(0,0.5f,0);
+           //     print(hit.transform.gameObject.tag);
+                HandleCreature.transform.position = hit.point + new Vector3(0,0.5f,0); 
+               
+               
             }
 
-            if (HandleTimer > HandleDelay)
-                {
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                    HandleTimer = 0f;
-                    HandleCreature.GetComponent<Unit>().enabled = false;
-                        HandleCreature = null;
-                    }
-                    if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Escape))
-                    {
-                    HandleTimer = 0f;
-                    GameObject.Destroy(HandleCreature.gameObject);
-                        HandleCreature = null;
-                    }
-                }
+           
         }
     }
 

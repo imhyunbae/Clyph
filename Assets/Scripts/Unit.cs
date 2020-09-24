@@ -15,6 +15,9 @@ public enum ETeam
 
 abstract public class Unit : MonoBehaviour
 {
+    public bool Battle;
+
+
     public float Range;
     public float Interval;
     public float MaxHP;
@@ -31,10 +34,12 @@ abstract public class Unit : MonoBehaviour
     float AttackTimer = 0.0f;
 
     protected void Start()
-    {   
+    {
+        Battle = true;
         SpeedMultiplier = 1.0f;
         Collider = GetComponent<BoxCollider>();
         AttackTimer = Interval;
+        GetComponent<SpriteRenderer>().flipX = true;
     }
 
     protected void Update()
@@ -53,37 +58,40 @@ abstract public class Unit : MonoBehaviour
 
     protected void FixedUpdate()
     {
-        SetTarget();
-        if (Target == null)
-            return;
-
-        if (Target.transform.position.magnitude > 8)
-            knockbackData = null;
-
-        if (knockbackData != null)
+        if (Battle == true)
         {
-            Knockback();
-            return;
-        }
+            SetTarget();
+            if (Target == null)
+                return;
 
-        SpeedY = Mathf.Max(SpeedY - 9.8f * Time.deltaTime, -10.0f);
-        float Y = Mathf.Max(transform.position.y + SpeedY * Time.deltaTime, 0.0f);
-        transform.position = new Vector3(transform.position.x, Y, transform.position.z);
+            if (Target.transform.position.magnitude > 8)
+                knockbackData = null;
 
-        Vector3 Distance = Target.transform.position - transform.position;
-        if (Distance.magnitude > Range)
-        {
-            Vector3 Displacement = Distance.normalized * Speed * SpeedMultiplier * Time.fixedDeltaTime;
-            transform.position += Displacement;
-            AttackTimer = Interval;
-        }
-        else
-        {
-            AttackTimer += Time.fixedDeltaTime;
-            if (AttackTimer >= Interval)
+            if (knockbackData != null)
             {
-                Attack();
-                AttackTimer = 0.0f;
+                Knockback();
+                return;
+            }
+
+            SpeedY = Mathf.Max(SpeedY - 9.8f * Time.deltaTime, -10.0f);
+            float Y = Mathf.Max(transform.position.y + SpeedY * Time.deltaTime, 0.0f);
+            transform.position = new Vector3(transform.position.x, Y, transform.position.z);
+
+            Vector3 Distance = Target.transform.position - transform.position;
+            if (Distance.magnitude > Range)
+            {
+                Vector3 Displacement = Distance.normalized * Speed * SpeedMultiplier * Time.fixedDeltaTime;
+                transform.position += Displacement;
+                AttackTimer = Interval;
+            }
+            else
+            {
+                AttackTimer += Time.fixedDeltaTime;
+                if (AttackTimer >= Interval)
+                {
+                    Attack();
+                    AttackTimer = 0.0f;
+                }
             }
         }
     }
