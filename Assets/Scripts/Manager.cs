@@ -21,27 +21,35 @@ public class Manager : MonoBehaviour
     public static Manager Instance;
     public List<Module> Modules;
     public List<Enemy> Enemies;
+    public GameObject HpBarParnet;
+    public GameObject BattleStartButton;
     public Canvas Canvas;
     public GameObject HealthBar;
+    public GameObject WaveEnemies;
+    public GameObject WaveParent;
     public Camera Camera;
     // private bool WorldCamera;
     // private Vector3 TargetCameraPosition;
     // private Quaternion TargetCameraRotation;
     public List<Stage> Stages;
     public int CurrentStageIndex = 0;
-    public Stage CurrentStage { get { return Stages[CurrentStageIndex]; }}
-    public (int, int) nthWave { get { 
-        int nth = 0, total = 0;
-        for (int i = 0; i < Stages.Count; i++)
+    public Stage CurrentStage { get { return Stages[CurrentStageIndex]; } }
+    public (int, int) nthWave
+    {
+        get
         {
-            if (Stages[i].phase != Phase.Battle)
-                continue;
-            if (i <= CurrentStageIndex)
-                nth += 1;
-            total += 1;
+            int nth = 0, total = 0;
+            for (int i = 0; i < Stages.Count; i++)
+            {
+                if (Stages[i].phase != Phase.Battle)
+                    continue;
+                if (i <= CurrentStageIndex)
+                    nth += 1;
+                total += 1;
+            }
+            return (nth, total);
         }
-        return (nth, total);
-    }}
+    }
     private void Awake()
     {
         Manager.Instance = this;
@@ -49,10 +57,10 @@ public class Manager : MonoBehaviour
     public void RegisterUnit(GameObject _Unit)
     {
         Unit unit = _Unit.GetComponent<Unit>();
-        GameObject HPBar = Instantiate(HealthBar, Canvas.transform);
+        GameObject HPBar = Instantiate(HealthBar, HpBarParnet.transform);
         HPBar.GetComponent<HealthBar>().Setup(unit);
 
-        if (_Unit.GetComponent<Module>() != null )
+        if (_Unit.GetComponent<Module>() != null)
         {
             Modules.Add(_Unit.GetComponent<Module>());
             unit.Team = ETeam.Module;
@@ -74,11 +82,11 @@ public class Manager : MonoBehaviour
 
         foreach (Module each in Modules)
         {
-            GameObject HPBar = Instantiate(HealthBar, Canvas.transform);
+            GameObject HPBar = Instantiate(HealthBar, HpBarParnet.transform);
             each.Team = ETeam.Module;
             HPBar.GetComponent<HealthBar>().Setup(each);
         }
-        
+
         StageWillBegin();
     }
 
@@ -108,20 +116,21 @@ public class Manager : MonoBehaviour
 
     void StageWillFinished()
     {
+        if (CurrentStage.phase == Phase.Break)
+        {
 
+            BattleUIManager.Instance.OnGridDropFailed();
+            BattleUIManager.Instance.ClosePannel();
+            BattleUIManager.Instance.GridParent.SetActive(false);
+            BattleStartButton.SetActive(false);
+        }
     }
 
     void StageWillBegin()
     {
         if (CurrentStage.phase == Phase.Battle)
         {
-            Enemies = FindObjectsOfType<Enemy>().ToList();
-            foreach (Enemy each in Enemies)
-            {
-                GameObject HPBar = Instantiate(HealthBar, Canvas.transform);
-                each.Team = ETeam.Enemy;
-                HPBar.GetComponent<HealthBar>().Setup(each);
-            }
+
 
             foreach (var each in Enemies)
                 each.Battle = true;
@@ -132,11 +141,9 @@ public class Manager : MonoBehaviour
 
         if (CurrentStage.phase == Phase.Break)
         {
-            foreach (var each in Enemies)
-            {
-                each.Battle = false;
-                each.transform.position = each.StartPos;
-            }
+
+            BattleStartButton.SetActive(true);
+            BattleUIManager.Instance.GridParent.SetActive(true);
 
             foreach (var each in Modules)
             {
@@ -144,6 +151,32 @@ public class Manager : MonoBehaviour
                 each.transform.position = each.StartPos;
             }
 
+            Enemies.Clear();
+            GameObject Wave = GameObject.Instantiate(WaveEnemies, WaveParent.transform);
+            Enemies = FindObjectsOfType<Enemy>().ToList();
+            foreach (var each in Enemies)
+            {
+                if (each.HP <= 0)
+                {
+                    Enemies.Remove(each);
+                    break;
+                }
+            }
+            foreach (var each in Enemies)
+            {
+                if (each.HP <= 0)
+                {
+                    Enemies.Remove(each);
+                    continue;
+                }
+                else
+                {
+                    each.Battle = false;
+                    GameObject HPBar = Instantiate(HealthBar, HpBarParnet.transform);
+                    each.Team = ETeam.Enemy;
+                    HPBar.GetComponent<HealthBar>().Setup(each);
+                }
+            }
         }
     }
     public void OnModuleDie(Module DeadModule)
@@ -156,8 +189,15 @@ public class Manager : MonoBehaviour
     public void OnEnemyDie(Enemy DeadEnemy)
     {
         Enemies.Remove(DeadEnemy);
+        print(Enemies.Count);
         if (Enemies.Count == 0)
+        {
+       
+            Enemies.Clear();
+            GameObject.Destroy(DeadEnemy.transform.parent.gameObject);
             NextStage();
+
+        }
     }
 
     // public ResetTarget(ETeam team, List<GameObject> Targets)
@@ -172,23 +212,23 @@ public class Manager : MonoBehaviour
 
     // void Update()
     // {
-        // if (Input.GetKeyDown(KeyCode.C))
-        // {
-        //     WorldCamera = !WorldCamera;
-        // }
+    // if (Input.GetKeyDown(KeyCode.C))
+    // {
+    //     WorldCamera = !WorldCamera;
+    // }
 
-        // if (WorldCamera)
-        // {
-        //     TargetCameraPosition = Modules[0].transform.position + new Vector3(7.5f, 7.5f, 0.0f);
-        //     TargetCameraRotation = Quaternion.Euler(45, -90, 0);
-        // }
-        // else
-        // {
-        //     TargetCameraPosition = new Vector3(0.0f, 15.0f, -15.0f);
-        //     TargetCameraRotation = Quaternion.Euler(45, 0, 0);
-        // }
-        // float Multiplier = 10;
-        // Camera.transform.position = Vector3.Lerp(Camera.transform.position, TargetCameraPosition, Time.deltaTime * Multiplier);
-        // Camera.transform.rotation = Quaternion.Lerp(Camera.transform.rotation, TargetCameraRotation, Time.deltaTime * Multiplier);
+    // if (WorldCamera)
+    // {
+    //     TargetCameraPosition = Modules[0].transform.position + new Vector3(7.5f, 7.5f, 0.0f);
+    //     TargetCameraRotation = Quaternion.Euler(45, -90, 0);
+    // }
+    // else
+    // {
+    //     TargetCameraPosition = new Vector3(0.0f, 15.0f, -15.0f);
+    //     TargetCameraRotation = Quaternion.Euler(45, 0, 0);
+    // }
+    // float Multiplier = 10;
+    // Camera.transform.position = Vector3.Lerp(Camera.transform.position, TargetCameraPosition, Time.deltaTime * Multiplier);
+    // Camera.transform.rotation = Quaternion.Lerp(Camera.transform.rotation, TargetCameraRotation, Time.deltaTime * Multiplier);
     // }
 }

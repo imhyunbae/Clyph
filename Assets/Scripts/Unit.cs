@@ -33,10 +33,14 @@ abstract public class Unit : MonoBehaviour
     public BoxCollider Collider;
     float AttackTimer = 0.0f;
 
+    private void Awake()
+    {
+        Battle = false;
+    }
+
     protected void Start()
     {
         StartPos = transform.position;
-        Battle = true;
         SpeedMultiplier = 1.0f;
         Collider = GetComponent<BoxCollider>();
         AttackTimer = Interval;
@@ -90,7 +94,7 @@ abstract public class Unit : MonoBehaviour
             {
                 Vector3 Displacement = Distance.normalized * Speed * SpeedMultiplier * Time.fixedDeltaTime;
                 transform.position += Displacement;
-                AttackTimer = Interval;
+                AttackTimer = 0;
             }
             else
             {

@@ -11,18 +11,29 @@ public class BattleUIManager : MonoBehaviour
     public BattleInventory BattleInventory;
 
     [Header("SP")]
-    [SerializeField] Text SP_Text;
+    public Text SP_Text;
+
+    [Header("Grid")]
+    public GameObject GridParent;
 
     [Header("Wave")]
-    [SerializeField] Text Wave_Text;
+    public Text Wave_Text;
+
+    [Header("LeftTime")]
+    public Text LeftTime_Text;
+
+    [Header("Pannel")]
+    public GameObject Hero_Pannel;
+    public GameObject Creature_Pannel;
 
     [Header("Creature")]
-    [SerializeField] RectTransform CreatureList;
-    [SerializeField] GameObject CreatureListElementPrefeb;
-    [SerializeField] public GameObject CreaturePrefeb;
-    public Unit HandleCreature = null;
-    public float HandleTimer = 0f;
-    public float HandleDelay = 1.5f;
+    public RectTransform CreatureList;
+    public GameObject CreatureListElementPrefeb;
+    public GameObject CreaturePrefeb;
+
+    [HideInInspector]public Unit HandleCreature = null;
+    [HideInInspector]public float HandleTimer = 0f;
+    [HideInInspector]public float HandleDelay = 0f;
 
     [Header("Spirit")]
     [SerializeField] Text[] Spirit_Text = new Text[4];
@@ -31,12 +42,43 @@ public class BattleUIManager : MonoBehaviour
     {
         //싱글톤 변수 초기화
         Instance = this;
-
+        HandleDelay = 0f;
     }
 
     void Start()
     {
 
+    }
+
+    public void ClosePannel()
+    {
+        if (Creature_Pannel.active == true)
+            Creature_Pannel.GetComponent<Animator>().Play("Out");
+
+        if (Hero_Pannel.active == true)
+            Hero_Pannel.GetComponent<Animator>().Play("Out");
+    }
+
+    public void OpenCreaturePannel()
+    {
+        if (Hero_Pannel.active == true)
+            Hero_Pannel.GetComponent<Animator>().Play("Out");
+
+        if (Creature_Pannel.active == false)
+            Creature_Pannel.SetActive(true);
+
+       Instance.Creature_Pannel.GetComponent<Animator>().Play("In");
+    }
+
+    public void OpenHeroPannel()
+    {
+        if (Creature_Pannel.active == true)
+            Creature_Pannel.GetComponent<Animator>().Play("Out");
+
+        if (Hero_Pannel.active == false)
+            Hero_Pannel.SetActive(true);
+
+       Hero_Pannel.GetComponent<Animator>().Play("In");
     }
 
     public void SelectUnit(ModuleKind _Kind)
@@ -52,24 +94,18 @@ public class BattleUIManager : MonoBehaviour
         ((Module)HandleCreature).Kind = _Kind;
     }
 
-    public void OnGridDropSuccess(Vector3 _ScreenDropPosition)
+    public void OnGridDropSuccess(Vector3 _Position)
     {
-        if (HandleCreature == null  ||  HandleTimer < HandleDelay)
+        if (HandleCreature == null || HandleTimer < HandleDelay)
             return;
 
         HandleTimer = 0f;
-        print(_ScreenDropPosition);
-        Ray ray = RectTransformUtility.ScreenPointToRay(Camera.main,_ScreenDropPosition);
 
-        RaycastHit hit = new RaycastHit();
-        if (Physics.Raycast(ray, out hit, float.MaxValue, LayerMask.GetMask("Map")) == true)
-        {
-            HandleCreature.transform.position = hit.point + new Vector3(0, 0.5f, 0);
-            HandleCreature.Battle = true;
-            HandleCreature.StartPos = HandleCreature.transform.position;
-            Manager.Instance.RegisterUnit(BattleUIManager.Instance.HandleCreature.gameObject);
-            BattleInventory.DictionaryModule[((Module)HandleCreature).Kind]--;
-        }
+        HandleCreature.transform.position = _Position + new Vector3(0,0.5f,0);
+        HandleCreature.Battle = true;
+        HandleCreature.StartPos = HandleCreature.transform.position;
+        Manager.Instance.RegisterUnit(BattleUIManager.Instance.HandleCreature.gameObject);
+        BattleInventory.DictionaryModule[((Module)HandleCreature).Kind]--;
 
         HandleCreature = null;
     }
@@ -89,7 +125,7 @@ public class BattleUIManager : MonoBehaviour
         if (HandleCreature != null)
         {
             HandleTimer += Time.deltaTime;
-           
+
             Ray ray = Manager.Instance.Camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit = new RaycastHit();
             if (Physics.Raycast(ray, out hit, 5000000, LayerMask.GetMask("Map")))
@@ -101,6 +137,15 @@ public class BattleUIManager : MonoBehaviour
 
     private void LateUpdate()
     {
+        if(Manager.Instance.CurrentStage.phase == Phase.Break)
+        {
+            LeftTime_Text.transform.parent.gameObject.SetActive(true);
+            LeftTime_Text.text = ((int)Manager.Instance.CurrentStage.Duration / 60).ToString() + " : " + ((int)Manager.Instance.CurrentStage.Duration % 60).ToString();
+
+        }
+        else LeftTime_Text.transform.parent.gameObject.SetActive(false);
+
+
         SP_Text.text = "SP : " + BattleInventory.SP.ToString();
         var waveCount = Manager.Instance.nthWave;
         Wave_Text.text = "Wave " + waveCount.Item1.ToString() + "/" + waveCount.Item2.ToString();
@@ -109,7 +154,7 @@ public class BattleUIManager : MonoBehaviour
             Spirit_Text[i].text = "X" + BattleInventory.SpiritCount[i].ToString();
 
 
-        foreach (var iter in BattleInventory.DictionaryModule)                                                   
+        foreach (var iter in BattleInventory.DictionaryModule)
         {
             Transform child = CreatureList.Find(iter.Key.ToString());
             if (child != null)
