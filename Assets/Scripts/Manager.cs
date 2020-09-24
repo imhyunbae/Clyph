@@ -42,10 +42,14 @@ public class Manager : MonoBehaviour
         }
         return (nth, total);
     }}
+    private void Awake()
+    {
+        Manager.Instance = this;
+    }
+
 
     void Start()
     {
-        Manager.Instance = this;
 
         Modules = FindObjectsOfType<Module>().ToList();
 

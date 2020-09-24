@@ -48,8 +48,10 @@ public class BattleUIManager : MonoBehaviour
             RaycastHit hit = new RaycastHit();
             if (Physics.Raycast(ray, out hit,5000000,LayerMask.GetMask("Map")))
             {
-                print(hit.transform.gameObject.tag);
-                HandleCreature.transform.position = hit.point + new Vector3(0,0.5f,0);
+           //     print(hit.transform.gameObject.tag);
+                HandleCreature.transform.position = hit.point + new Vector3(0,0.5f,0); 
+               
+               
             }
 
            

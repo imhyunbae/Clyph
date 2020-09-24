@@ -32,7 +32,7 @@ public class CreatureListElement : MonoBehaviour
         {
             GameObject Unit = GameObject.Instantiate(BattleUIManager.Instance.CreaturePrefeb);
             Unit.transform.position = Manager.Instance.Camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0f));
-            Unit.GetComponent<Unit>().enabled = false;
+            Unit.GetComponent<Unit>().Battle = false;
             BattleUIManager.Instance.HandleCreature = Unit.GetComponent<Unit>();
         }
     }

@@ -40,12 +40,11 @@ public class Grid : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                     RaycastHit hit = new RaycastHit();
                     if (Physics.Raycast(ray, out hit, 5000000, LayerMask.GetMask("Map")))
                     {
-                        print(hit.transform.gameObject.tag);
                         BattleUIManager.Instance.HandleCreature.transform.position = hit.point + new Vector3(0, 0.5f, 0);
                     }
 
 
-                    BattleUIManager.Instance.HandleCreature.GetComponent<Unit>().enabled = false;
+                    BattleUIManager.Instance.HandleCreature.GetComponent<Unit>().Battle = true;
                     BattleUIManager.Instance.HandleCreature = null;
 
                 }
