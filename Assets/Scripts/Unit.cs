@@ -94,12 +94,6 @@ abstract public class Unit : MonoBehaviour
 
 
         }
-
-    }
-
-    protected void FixedUpdate()
-    {
-
         if (Battle == true)
         {
             SetTarget();
@@ -157,6 +151,8 @@ abstract public class Unit : MonoBehaviour
 
         }
     }
+
+
 
     public void Damage(float Power)
     {

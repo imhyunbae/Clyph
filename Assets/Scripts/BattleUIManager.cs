@@ -85,8 +85,8 @@ public class BattleUIManager : MonoBehaviour
     {
         if (HandleCreature != null)
             return;
-
-        GameObject Unit = GameObject.Instantiate(CreaturePrefeb);
+    
+        GameObject Unit = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Creature/" + _Kind.ToString()));
         HandleCreature = Unit.GetComponent<Unit>();
         HandleCreature.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0f));
         HandleCreature.Battle = false;
@@ -102,7 +102,6 @@ public class BattleUIManager : MonoBehaviour
         HandleTimer = 0f;
 
         HandleCreature.transform.position = _Position + new Vector3(0,0.5f,0);
-        HandleCreature.Battle = true;
         HandleCreature.StartPos = HandleCreature.transform.position;
         Manager.Instance.RegisterUnit(BattleUIManager.Instance.HandleCreature.gameObject);
         BattleInventory.DictionaryModule[((Module)HandleCreature).Kind]--;
@@ -174,6 +173,7 @@ public class BattleUIManager : MonoBehaviour
                     Element.GetComponent<CreatureListElement>().Name = iter.Key.ToString();
                     Element.GetComponent<CreatureListElement>().Count = iter.Value;
                     Element.GetComponent<CreatureListElement>().Kind = iter.Key;
+                    Element.GetComponent<CreatureListElement>().IconSprite = Resources.Load<GameObject>("Prefabs/Creature/" + iter.Key.ToString()).GetComponent<SpriteRenderer>().sprite;
                     Element.name = iter.Key.ToString();
                     SortCreatureList();
                 }

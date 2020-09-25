@@ -10,7 +10,16 @@ public enum ElementalType { Water , Fire , Ground , Wind  }
 public enum SpiritType { Joy, Anger, Sorrow, Pleasure }
 
 [Serializable]
-public enum ModuleKind { M_01, M_02, M_03 }
+public enum ModuleKind { 
+    Creature_0001,
+    Creature_0002,
+    Creature_0003,
+    Creature_0004,
+    Creature_0005,
+    Creature_0006,
+    Creature_0007,
+    Creature_0008,
+}
 
 public class BattleInventory : MonoBehaviour
 {
@@ -28,7 +37,7 @@ public class BattleInventory : MonoBehaviour
     {
         //플레이어 정보대로 값을 취하기
         for (int i = 0; i < Enum.GetNames(typeof(ModuleKind)).Length; i++)
-            DictionaryModule.Add((ModuleKind)i, 0);
+            DictionaryModule.Add((ModuleKind)i, 1);
 
         SP = 100;
     }
