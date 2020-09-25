@@ -124,12 +124,12 @@ abstract public class Unit : MonoBehaviour
             Vector3 Distance = XZTarget - XZUnit;
             if (Distance.magnitude > Range)
             {
-                Vector3 Displacement = Distance.normalized * Speed * SpeedMultiplier * Time.fixedDeltaTime;
+                Vector3 Displacement = Distance.normalized * Speed * SpeedMultiplier * Time.deltaTime;
                 transform.position += Displacement;
             }
             else
             {
-                AttackTimer += Time.fixedDeltaTime;
+                AttackTimer += Time.deltaTime;
                 if (AttackTimer >= Interval)
                 {
                     Attack();

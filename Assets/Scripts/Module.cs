@@ -31,14 +31,13 @@ public class Module : Unit
     {
         if (Manager.Instance == null)
             return;
-        List<Enemy> Enemies = Manager.Instance.Enemies;
-        if (Enemies.Count == 0)
+        if (Manager.Instance.Enemies.Count == 0)
         {
             Target = null;
             return;
         }
 
-        Enemies.Sort((Enemy A, Enemy B) => Vector3.Distance(transform.position, A.transform.position).CompareTo(Vector3.Distance(transform.position, B.transform.position)));
-        Target = Enemies.Count > 0 ? Enemies[0].gameObject : null;
+        Manager.Instance.Enemies.Sort((Enemy A, Enemy B) => Vector3.Distance(transform.position, A.transform.position).CompareTo(Vector3.Distance(transform.position, B.transform.position)));
+        Target = Manager.Instance.Enemies.Count > 0 ? Manager.Instance.Enemies[0].gameObject : null;
     }
 }
