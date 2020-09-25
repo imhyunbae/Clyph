@@ -12,7 +12,7 @@ public enum ETeam
 {
     Module, Enemy
 }
-
+[ExecuteInEditMode]
 abstract public class Unit : MonoBehaviour
 {
     public Vector3 StartPos;
@@ -28,7 +28,7 @@ abstract public class Unit : MonoBehaviour
     public GameObject Target;
     public float SpeedY = 0.0f;
     public KnockbackData knockbackData;
-    public Vector3 StartScale;
+    public float StartScale;
 
 
 
@@ -43,40 +43,56 @@ abstract public class Unit : MonoBehaviour
 
     protected void Start()
     {
-        StartScale = transform.localScale;
-        StartPos = transform.position;
-        SpeedMultiplier = 1.0f;
-        Collider = GetComponent<BoxCollider>();
-        AttackTimer = Interval;
-        GetComponent<SpriteRenderer>().flipX = true;
 
-        Camera camera = Manager.Instance.Camera;
-        transform.rotation = Quaternion.LookRotation(-camera.transform.forward);
+            StartScale = transform.localScale.x;
+            StartPos = transform.position;
+            SpeedMultiplier = 1.0f;
+            Collider = GetComponent<BoxCollider>();
+            AttackTimer = Interval;
+            GetComponent<SpriteRenderer>().flipX = true;
 
-        float Distance = (camera.transform.position - transform.position).magnitude;
-        float Ratio = Distance / camera.transform.position.magnitude * 0.5f;
-        StartScale.z = 1f;
-        transform.localScale = StartScale * Ratio ;
+            Camera camera = Camera.main;
+            transform.rotation = Quaternion.LookRotation(-camera.transform.forward);
+
+            float Distance = (camera.transform.position - transform.position).magnitude;
+            float Ratio = Distance / camera.transform.position.magnitude * 0.5f;
+            transform.localScale = new Vector3(StartScale, StartScale,1) * Ratio;
 
     }
 
     protected void Update()
     {
+        if (Application.isPlaying == true)
+        {
+            Camera camera = Camera.main;
+            transform.rotation = Quaternion.LookRotation(-camera.transform.forward);
 
-        Camera camera = Manager.Instance.Camera;
-        transform.rotation = Quaternion.LookRotation(-camera.transform.forward);
+            float Distance = (camera.transform.position - transform.position).magnitude;
+            float Ratio = Distance / camera.transform.position.magnitude * 1f;
+            transform.localScale = new Vector3(StartScale, StartScale, 1) * Ratio;
+            // transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, 1f);
+            if (Target != null)
+                GetComponent<SpriteRenderer>().flipX = Target.transform.position.x > transform.position.x;
+        }
+        if (Application.isPlaying == false)
+        {
+            Vector3 MinY = new Vector3(0, -(Collider.size.y * transform.localScale.y) / 2f, -Collider.size.z / 2f);
 
-        float Distance = (camera.transform.position - transform.position).magnitude;
-        float Ratio = Distance / camera.transform.position.magnitude * 1f;
-        transform.localScale = StartScale * Ratio;
-        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, 1f);
-        if (Target != null)
-            GetComponent<SpriteRenderer>().flipX = Target.transform.position.x > transform.position.x;
+            Matrix4x4 matRot = Matrix4x4.Rotate(transform.rotation);
+
+            Vector3 A = matRot * MinY;
+
+            float Y = -A.y - 0.5f;
+            transform.position = new Vector3(transform.position.x, Y, transform.position.z);
+
+
+        }
+
     }
 
     protected void FixedUpdate()
     {
-  
+
         if (Battle == true)
         {
             SetTarget();
@@ -102,8 +118,8 @@ abstract public class Unit : MonoBehaviour
             transform.position = new Vector3(transform.position.x, Y, transform.position.z);
 
 
-            Vector3 XZTarget = new Vector3(Target.transform.position.x, 0, Target.transform.position.z) ;
-            Vector3 XZUnit = new Vector3(transform.position.x, 0, transform.position.z); 
+            Vector3 XZTarget = new Vector3(Target.transform.position.x, 0, Target.transform.position.z);
+            Vector3 XZUnit = new Vector3(transform.position.x, 0, transform.position.z);
             Vector3 Distance = XZTarget - XZUnit;
             if (Distance.magnitude > Range)
             {
