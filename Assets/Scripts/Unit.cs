@@ -76,6 +76,7 @@ abstract public class Unit : MonoBehaviour
 
     protected void FixedUpdate()
     {
+  
         if (Battle == true)
         {
             SetTarget();
@@ -90,28 +91,24 @@ abstract public class Unit : MonoBehaviour
                 Knockback();
                 return;
             }
+            Vector3 MinY = new Vector3(0, -(Collider.size.y * transform.localScale.y) / 2f, -Collider.size.z / 2f);
 
+            Matrix4x4 matRot = Matrix4x4.Rotate(transform.rotation);
+
+            Vector3 A = matRot * MinY;
             SpeedY = Mathf.Max(SpeedY - 9.8f * Time.deltaTime, -10.0f);
 
-            Vector3 MinY = new Vector3(0, -(Collider.size.y * transform.localScale.y) / 2f, -Collider.size.z / 2f);
-            
-            
-
-            Matrix4x4 matTrans = Matrix4x4.Translate(new Vector3(0f, 0,0));
-            Matrix4x4 matRot = Matrix4x4.Rotate(transform.rotation);
-            Matrix4x4 mat = matRot * matTrans;
-
-
-            Vector3  A = matRot * MinY;
-            float Y = Mathf.Max(transform.position.y + SpeedY * Time.deltaTime, -A.y-0.5f);
+            float Y = Mathf.Max(transform.position.y + SpeedY * Time.deltaTime, -A.y - 0.5f);
             transform.position = new Vector3(transform.position.x, Y, transform.position.z);
 
-            Vector3 Distance = Target.transform.position - transform.position;
+
+            Vector3 XZTarget = new Vector3(Target.transform.position.x, 0, Target.transform.position.z) ;
+            Vector3 XZUnit = new Vector3(transform.position.x, 0, transform.position.z); 
+            Vector3 Distance = XZTarget - XZUnit;
             if (Distance.magnitude > Range)
             {
                 Vector3 Displacement = Distance.normalized * Speed * SpeedMultiplier * Time.fixedDeltaTime;
                 transform.position += Displacement;
-                AttackTimer = 0;
             }
             else
             {
@@ -122,6 +119,19 @@ abstract public class Unit : MonoBehaviour
                     AttackTimer = 0.0f;
                 }
             }
+        }
+        else
+        {
+            Vector3 MinY = new Vector3(0, -(Collider.size.y * transform.localScale.y) / 2f, -Collider.size.z / 2f);
+
+            Matrix4x4 matRot = Matrix4x4.Rotate(transform.rotation);
+
+            Vector3 A = matRot * MinY;
+
+            float Y = -A.y - 0.5f;
+            transform.position = new Vector3(transform.position.x, Y, transform.position.z);
+
+
         }
     }
 

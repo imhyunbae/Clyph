@@ -28,6 +28,7 @@ public class CreatureListElement : MonoBehaviour
 
     public void OnButtonClick()
     {
+        if(Manager.Instance.CurrentStage.phase == Phase.Break)
         BattleUIManager.Instance.SelectUnit(Kind);
     }
 }

@@ -130,7 +130,7 @@ public class BattleUIManager : MonoBehaviour
             RaycastHit hit = new RaycastHit();
             if (Physics.Raycast(ray, out hit, 5000000, LayerMask.GetMask("Map")))
             {
-                HandleCreature.transform.position = hit.point + new Vector3(0, 0.5f, 0);
+                HandleCreature.transform.position = new Vector3(hit.point.x, HandleCreature.transform.position.y, hit.point.z); 
             }
         }
     }

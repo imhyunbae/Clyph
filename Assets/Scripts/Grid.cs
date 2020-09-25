@@ -66,9 +66,10 @@ public class Grid : MonoBehaviour
 
 
 
-            if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Escape))
-                BattleUIManager.Instance.OnGridDropFailed();
+
         }
+        if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Escape))
+            BattleUIManager.Instance.OnGridDropFailed();
     }
    
 }
