@@ -76,6 +76,13 @@ abstract public class Unit : MonoBehaviour
         }
         if (Application.isPlaying == false)
         {
+            Camera camera = Camera.main;
+            transform.rotation = Quaternion.LookRotation(-camera.transform.forward);
+
+            float Distance = (camera.transform.position - transform.position).magnitude;
+            float Ratio = Distance / camera.transform.position.magnitude * 1f;
+            transform.localScale = new Vector3(StartScale, StartScale, 1) * Ratio;
+
             Vector3 MinY = new Vector3(0, -(Collider.size.y * transform.localScale.y) / 2f, -Collider.size.z / 2f);
 
             Matrix4x4 matRot = Matrix4x4.Rotate(transform.rotation);
