@@ -28,6 +28,9 @@ abstract public class Unit : MonoBehaviour
     public GameObject Target;
     public float SpeedY = 0.0f;
     public KnockbackData knockbackData;
+    public Vector3 StartScale;
+
+
 
     [HideInInspector]
     public BoxCollider Collider;
@@ -40,6 +43,7 @@ abstract public class Unit : MonoBehaviour
 
     protected void Start()
     {
+        StartScale = transform.localScale;
         StartPos = transform.position;
         SpeedMultiplier = 1.0f;
         Collider = GetComponent<BoxCollider>();
@@ -51,7 +55,9 @@ abstract public class Unit : MonoBehaviour
 
         float Distance = (camera.transform.position - transform.position).magnitude;
         float Ratio = Distance / camera.transform.position.magnitude * 0.5f;
-        transform.localScale = new Vector3(Ratio, Ratio, Ratio);
+        StartScale.z = 1f;
+        transform.localScale = StartScale * Ratio ;
+
     }
 
     protected void Update()
@@ -61,9 +67,9 @@ abstract public class Unit : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(-camera.transform.forward);
 
         float Distance = (camera.transform.position - transform.position).magnitude;
-        float Ratio = Distance / camera.transform.position.magnitude * 0.5f;
-        transform.localScale = new Vector3(Ratio, Ratio, Ratio);
-
+        float Ratio = Distance / camera.transform.position.magnitude * 1f;
+        transform.localScale = StartScale * Ratio;
+        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, 1f);
         if (Target != null)
             GetComponent<SpriteRenderer>().flipX = Target.transform.position.x > transform.position.x;
     }
@@ -86,7 +92,18 @@ abstract public class Unit : MonoBehaviour
             }
 
             SpeedY = Mathf.Max(SpeedY - 9.8f * Time.deltaTime, -10.0f);
-            float Y = Mathf.Max(transform.position.y + SpeedY * Time.deltaTime, 0.0f);
+
+            Vector3 MinY = new Vector3(0, -(Collider.size.y * transform.localScale.y) / 2f, -Collider.size.z / 2f);
+            
+            
+
+            Matrix4x4 matTrans = Matrix4x4.Translate(new Vector3(0f, 0,0));
+            Matrix4x4 matRot = Matrix4x4.Rotate(transform.rotation);
+            Matrix4x4 mat = matRot * matTrans;
+
+
+            Vector3  A = matRot * MinY;
+            float Y = Mathf.Max(transform.position.y + SpeedY * Time.deltaTime, -A.y-0.5f);
             transform.position = new Vector3(transform.position.x, Y, transform.position.z);
 
             Vector3 Distance = Target.transform.position - transform.position;

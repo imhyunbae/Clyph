@@ -53,12 +53,12 @@ public class Grid : MonoBehaviour
 
                 }
                 else
-                {
+                { 
                     if (BattleUIManager.Instance.HandleCreature != null)
                     {
                         AttachedUnit = BattleUIManager.Instance.HandleCreature;
                         BattleUIManager.Instance.OnGridDropSuccess(transform.position);
-
+                        
                     }
                     else BattleUIManager.Instance.OpenHeroPannel();
                 }

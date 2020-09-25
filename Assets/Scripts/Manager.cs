@@ -189,7 +189,6 @@ public class Manager : MonoBehaviour
     public void OnEnemyDie(Enemy DeadEnemy)
     {
         Enemies.Remove(DeadEnemy);
-        print(Enemies.Count);
         if (Enemies.Count == 0)
         {
        
