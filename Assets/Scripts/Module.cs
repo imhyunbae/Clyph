@@ -37,7 +37,28 @@ public class Module : Unit
             return;
         }
 
-        Manager.Instance.Enemies.Sort((Enemy A, Enemy B) => Vector3.Distance(transform.position, A.transform.position).CompareTo(Vector3.Distance(transform.position, B.transform.position)));
-        Target = Manager.Instance.Enemies.Count > 0 ? Manager.Instance.Enemies[0].gameObject : null;
+        ///  Manager.Instance.Enemies.Sort((Enemy A, Enemy B) => Vector3.Distance(transform.position, A.transform.position).CompareTo(Vector3.Distance(transform.position, B.transform.position)));
+        ///  Target = Manager.Instance.Enemies.Count > 0 ? Manager.Instance.Enemies[0].gameObject : null;
+
+        var List = Manager.Instance.Enemies;
+        if (List.Count == 0)
+            return;
+
+        var Enemy = List[0]; // 첫번째를 먼저 
+        float shortDis = Vector3.Distance(gameObject.transform.position, List[0].transform.position); // 첫번째를 기준으로 잡아주기 
+
+        foreach (Enemy found in List)
+        {
+            float Distance = Vector3.Distance(gameObject.transform.position, found.transform.position);
+
+            if (Distance < shortDis) // 위에서 잡은 기준으로 거리 재기
+            {
+                Enemy = found;
+                shortDis = Distance;
+            }
+        }
+        //Manager.Instance.Modules.Sort((Module A, Module B) => Vector3.Distance(transform.position, A.transform.position).CompareTo(Vector3.Distance(transform.position, B.transform.position)));
+        //STarget = Manager.Instance.Modules[0].gameObject;
+        Target = Enemy.gameObject;
     }
 }

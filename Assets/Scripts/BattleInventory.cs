@@ -42,9 +42,8 @@ public class BattleInventory : MonoBehaviour
         SP = 100;
     }
 
-    void Update()
+    public void AddModule(ModuleKind _Kind, int _Count)
     {
+        DictionaryModule[_Kind] += _Count;
     }
-
-  
 }

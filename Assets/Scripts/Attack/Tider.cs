@@ -15,17 +15,22 @@ public class Tider : BaseAttack
     void Start()
     {
         transform.position = StartPosition;
-        List<Enemy> Enemies = Manager.Instance.Enemies;
-        for (int i = 0; i < Enemies.Count; i++)
+        List<Enemy> ListTarget = new List<Enemy>();
+        foreach (var each in Manager.Instance.Enemies)
         {
-            Enemy each = Enemies[i];
-            if (each == null)
-                continue;
+
             if ((each.transform.position - StartPosition).magnitude < Range)
             {
-                each.SpeedY = SpeedY;
-                each.Damage(Power);
+                ListTarget.Add(each);
+
             }
+        }
+
+        foreach (var each in ListTarget)
+        {
+            each.SpeedY = SpeedY;
+            each.Damage(Power);
+
         }
     }
 }

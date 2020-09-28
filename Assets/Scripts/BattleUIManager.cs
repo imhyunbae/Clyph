@@ -50,6 +50,11 @@ public class BattleUIManager : MonoBehaviour
 
     }
 
+    public void BuyCreature()
+    {
+     
+    }
+
     public void ClosePannel()
     {
         if (Creature_Pannel.active == true)
@@ -121,6 +126,7 @@ public class BattleUIManager : MonoBehaviour
 
     void Update()
     {
+
         if (HandleCreature != null)
         {
             HandleTimer += Time.deltaTime;

@@ -194,7 +194,7 @@ public class Manager : MonoBehaviour
        
             Enemies.Clear();
             GameObject.Destroy(DeadEnemy.transform.parent.gameObject);
-            NextStage();
+            this.Invoke( "NextStage", 1.25f);
 
         }
     }
