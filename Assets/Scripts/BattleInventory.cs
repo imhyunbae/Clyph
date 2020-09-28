@@ -37,7 +37,7 @@ public class BattleInventory : MonoBehaviour
     {
         //플레이어 정보대로 값을 취하기
         for (int i = 0; i < Enum.GetNames(typeof(ModuleKind)).Length; i++)
-            DictionaryModule.Add((ModuleKind)i, 1);
+            DictionaryModule.Add((ModuleKind)i, 0);
 
         SP = 100;
     }

@@ -123,6 +123,8 @@ public class Manager : MonoBehaviour
             BattleUIManager.Instance.ClosePannel();
             BattleUIManager.Instance.GridParent.SetActive(false);
             BattleStartButton.SetActive(false);
+            BattleUIManager.Instance.OffModeUI();
+
         }
     }
 
@@ -141,7 +143,7 @@ public class Manager : MonoBehaviour
 
         if (CurrentStage.phase == Phase.Break)
         {
-
+            BattleUIManager.Instance.ManageMode();
             BattleStartButton.SetActive(true);
             BattleUIManager.Instance.GridParent.SetActive(true);
 

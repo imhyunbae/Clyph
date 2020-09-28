@@ -23,6 +23,7 @@ public class Enemy : Unit
 
     public override void Die()
     {
+        BattleUIManager.Instance.BattleInventory.SP += 5;
         Manager.Instance.OnEnemyDie(this);
         base.Die();
     }

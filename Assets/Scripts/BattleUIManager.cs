@@ -9,6 +9,10 @@ public class BattleUIManager : MonoBehaviour
     public static BattleUIManager Instance;
 
     public BattleInventory BattleInventory;
+    
+    [Header("Category")]
+    public GameObject ManageCatergory;
+    public GameObject BuyCategory;
 
     [Header("SP")]
     public Text SP_Text;
@@ -50,9 +54,28 @@ public class BattleUIManager : MonoBehaviour
 
     }
 
-    public void BuyCreature()
+    public void ManageMode()
     {
-     
+        ManageCatergory.SetActive(true);
+        GridParent.SetActive(true);
+        BuyCategory.SetActive(false);
+        ClosePannel();
+    }
+
+    public void BuyMode()
+    {
+        ManageCatergory.SetActive(false);
+        GridParent.SetActive(false);
+        BuyCategory.SetActive(true);
+        ClosePannel();
+    }
+
+    public void OffModeUI()
+    {
+        ManageCatergory.SetActive(false);
+        GridParent.SetActive(false);
+        BuyCategory.SetActive(false);
+        ClosePannel();
     }
 
     public void ClosePannel()
