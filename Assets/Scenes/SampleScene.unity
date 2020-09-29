@@ -547,7 +547,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -73}
-  m_SizeDelta: {x: 200, y: 150}
+  m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &99211666
 MonoBehaviour:
@@ -3754,7 +3754,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1066589606
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4096,7 +4096,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 76.199936, y: -241.9}
+  m_AnchoredPosition: {x: 76.199936, y: -200}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &1112958343
@@ -5544,7 +5544,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 1.699997, y: -241.9}
+  m_AnchoredPosition: {x: 1.699997, y: -200}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &1402648875
@@ -7621,7 +7621,7 @@ PrefabInstance:
     - target: {fileID: 1039378225880716907, guid: ef137642e0b9cc6499c81dedb192c236,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.27602243
+      value: 0.2784943
       objectReference: {fileID: 0}
     - target: {fileID: 1039378225880716907, guid: ef137642e0b9cc6499c81dedb192c236,
         type: 3}
@@ -7671,17 +7671,17 @@ PrefabInstance:
     - target: {fileID: 1039378225880716907, guid: ef137642e0b9cc6499c81dedb192c236,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.751736
+      value: 0.7545903
       objectReference: {fileID: 0}
     - target: {fileID: 1039378225880716907, guid: ef137642e0b9cc6499c81dedb192c236,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.751736
+      value: 0.7545903
       objectReference: {fileID: 0}
     - target: {fileID: 1039378225880716907, guid: ef137642e0b9cc6499c81dedb192c236,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.0038602
+      value: 1.0037969
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ef137642e0b9cc6499c81dedb192c236, type: 3}
@@ -8228,7 +8228,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -75.20006, y: -241.9}
+  m_AnchoredPosition: {x: -75.20006, y: -200}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &2093769884

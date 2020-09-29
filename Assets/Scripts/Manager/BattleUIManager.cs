@@ -56,18 +56,25 @@ public class BattleUIManager : MonoBehaviour
 
     public void ManageMode()
     {
-        ManageCatergory.SetActive(true);
-        GridParent.SetActive(true);
-        BuyCategory.SetActive(false);
-        ClosePannel();
+        if (Manager.Instance.CurrentStage.phase == Phase.Break)
+        {
+            ManageCatergory.SetActive(true);
+            GridParent.SetActive(true);
+            BuyCategory.SetActive(false);
+            ClosePannel();
+        }
     }
 
     public void BuyMode()
     {
-        ManageCatergory.SetActive(false);
-        GridParent.SetActive(false);
-        BuyCategory.SetActive(true);
-        ClosePannel();
+        if (Manager.Instance.CurrentStage.phase == Phase.Break)
+        {
+
+            ManageCatergory.SetActive(false);
+            GridParent.SetActive(false);
+            BuyCategory.SetActive(true);
+            ClosePannel();
+        }
     }
 
     public void OffModeUI()

@@ -8,7 +8,6 @@ public enum ElementalType { Water , Fire , Ground , Wind  }
 
 [Serializable]
 public enum SpiritType { Joy, Anger, Sorrow, Pleasure }
-
 [Serializable]
 public enum ModuleKind { 
     Creature_0001,
@@ -19,6 +18,8 @@ public enum ModuleKind {
     Creature_0006,
     Creature_0007,
     Creature_0008,
+    M_Creature_0001,
+    M_Creature_0002,
 }
 
 public class BattleInventory : MonoBehaviour
@@ -26,6 +27,36 @@ public class BattleInventory : MonoBehaviour
     public int[] SpiritCount;
     public Dictionary<ModuleKind, int> DictionaryModule;
     public int SP;
+    public int Count_NormalCreature 
+    { 
+        get 
+        {
+            int Count = 0;
+            foreach(var each in DictionaryModule)
+            {
+                if(each.Key.ToString()[0] != 'M')
+                {
+                    Count += each.Value;
+                }
+            }
+            return Count;
+        } 
+    }
+    public int Count_MaterialCreature 
+    {
+        get
+        {
+            int Count = 0;
+            foreach (var each in DictionaryModule)
+            {
+                if (each.Key.ToString()[0] == 'M')
+                {
+                    Count += each.Value;
+                }
+            }
+            return Count;
+        }
+    }
 
     void Awake()
     {
