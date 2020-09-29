@@ -143,6 +143,7 @@ abstract public class Unit : MonoBehaviour
 
     public void Damage(float Power)
     {
+        
         HP -= Power;
         if (HP <= 0)
             Die();

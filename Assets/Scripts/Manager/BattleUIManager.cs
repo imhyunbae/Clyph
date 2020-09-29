@@ -69,6 +69,8 @@ public class BattleUIManager : MonoBehaviour
     {
         if (Manager.Instance.CurrentStage.phase == Phase.Break)
         {
+            Hero_Pannel.SetActive(false);
+            Creature_Pannel.SetActive(false);
 
             ManageCatergory.SetActive(false);
             GridParent.SetActive(false);
@@ -82,6 +84,8 @@ public class BattleUIManager : MonoBehaviour
         ManageCatergory.SetActive(false);
         GridParent.SetActive(false);
         BuyCategory.SetActive(false);
+        Hero_Pannel.SetActive(false);
+        Creature_Pannel.SetActive(false);
         ClosePannel();
     }
 
