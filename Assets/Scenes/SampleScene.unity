@@ -7362,7 +7362,7 @@ MonoBehaviour:
   Canvas: {fileID: 1511458669}
   HealthBar: {fileID: 1637175155356587597, guid: 7fc0272ccc985d5409c60d391e227275,
     type: 3}
-  WaveEnemies: {fileID: 8736924589993779170, guid: 34efaeb90f890974b929fe5956238d93,
+  WaveEnemies: {fileID: 8245248559486215304, guid: 32973187486f50a4ab9e6b8b9ff2e26b,
     type: 3}
   WaveParent: {fileID: 1140107379}
   Camera: {fileID: 519420031}
@@ -7645,7 +7645,7 @@ PrefabInstance:
     - target: {fileID: 1039378225880716907, guid: ef137642e0b9cc6499c81dedb192c236,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.3158304
+      value: 0.3388037
       objectReference: {fileID: 0}
     - target: {fileID: 1039378225880716907, guid: ef137642e0b9cc6499c81dedb192c236,
         type: 3}
@@ -7695,17 +7695,52 @@ PrefabInstance:
     - target: {fileID: 1039378225880716907, guid: ef137642e0b9cc6499c81dedb192c236,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.7977023
+      value: 0.8242296
       objectReference: {fileID: 0}
     - target: {fileID: 1039378225880716907, guid: ef137642e0b9cc6499c81dedb192c236,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.7977023
+      value: 0.8242296
       objectReference: {fileID: 0}
     - target: {fileID: 1039378225880716907, guid: ef137642e0b9cc6499c81dedb192c236,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.002844
+      value: 1.0022595
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039378225880716911, guid: ef137642e0b9cc6499c81dedb192c236,
+        type: 3}
+      propertyPath: StartPos.x
+      value: -4.175742
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039378225880716911, guid: ef137642e0b9cc6499c81dedb192c236,
+        type: 3}
+      propertyPath: StartPos.y
+      value: 0.33389974
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039378225880716911, guid: ef137642e0b9cc6499c81dedb192c236,
+        type: 3}
+      propertyPath: StartPos.z
+      value: -0.378
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039378225880716911, guid: ef137642e0b9cc6499c81dedb192c236,
+        type: 3}
+      propertyPath: Interval
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039378225880716911, guid: ef137642e0b9cc6499c81dedb192c236,
+        type: 3}
+      propertyPath: StartScale
+      value: 0.8185669
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039378225880716911, guid: ef137642e0b9cc6499c81dedb192c236,
+        type: 3}
+      propertyPath: MaxHP
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039378225880716911, guid: ef137642e0b9cc6499c81dedb192c236,
+        type: 3}
+      propertyPath: HP
+      value: 500
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ef137642e0b9cc6499c81dedb192c236, type: 3}

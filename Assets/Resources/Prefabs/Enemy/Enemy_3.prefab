@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 1037255044323149715}
   - component: {fileID: 1037255044323149717}
   m_Layer: 0
-  m_Name: Enemy_1
+  m_Name: Enemy_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -108,9 +108,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1037255044323149726}
-  m_LocalRotation: {x: 0.2588191, y: -0, z: -0, w: 0.9659258}
-  m_LocalPosition: {x: 7.5, y: -0, z: -1.3397465}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0.9659258, z: 0.2588191, w: -0}
+  m_LocalPosition: {x: 7.5, y: -0.15087634, z: -1.3397465}
+  m_LocalScale: {x: 1.0351827, y: 1.0351827, z: 1.0351827}
   m_Children:
   - {fileID: 6263959548658806708}
   m_Father: {fileID: 0}
@@ -156,8 +156,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: d8d9b6a9def180544b2f85f065d663d4, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_Color: {r: 1, g: 0.72379285, b: 0, a: 1}
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -207,17 +207,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f386c4af531fbf4dae5c5fd8b994ec6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartPos: {x: 0, y: 0, z: 0}
+  StartPos: {x: 7.5, y: -0, z: -1.3397465}
   Battle: 0
   Range: 1
-  Interval: 0.5
-  MaxHP: 50
-  HP: 50
+  Interval: 1
+  MaxHP: 500
+  HP: 500
   Speed: 2
-  SpeedMultiplier: 0
+  SpeedMultiplier: 1
   Team: 0
   Target: {fileID: 0}
   SpeedY: 0
   StartScale: 1
-  Collider: {fileID: 0}
+  Collider: {fileID: 1037255044323149715}
   Power: 10
