@@ -27,6 +27,7 @@ public class BattleInventory : MonoBehaviour
     public int[] SpiritCount;
     public Dictionary<ModuleKind, int> DictionaryModule;
     public int SP;
+    
     public int Count_NormalCreature 
     { 
         get 

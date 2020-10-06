@@ -7,7 +7,7 @@ public class Module : Unit
 {
     public ModuleKind Kind;
     public GameObject AttackPrefab;
-
+    public ModuleData Data;
     public override void Die()
     {
         Manager.Instance.OnModuleDie(this);
