@@ -207,7 +207,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f386c4af531fbf4dae5c5fd8b994ec6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartPos: {x: 0, y: 0, z: 0}
   Battle: 0
   Range: 1
   Interval: 0.5
@@ -218,6 +217,5 @@ MonoBehaviour:
   Team: 0
   Target: {fileID: 0}
   SpeedY: 0
-  StartScale: 1
   Collider: {fileID: 0}
   Power: 10

@@ -14523,7 +14523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 847e27612bf005f4ab85ea1eea26ebc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Power: 10
+  Power: 20
   Lifetime: 1
   Range: 2
   SpeedY: 5
