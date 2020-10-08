@@ -6,8 +6,21 @@ using System.Linq;
 public class Module : Unit
 {
     public ModuleKind Kind;
-    public GameObject AttackPrefab;
-    public ModuleData Data;
+    public void SetData(ModuleData _Data)
+    {
+        this.HP = this.MaxHP = _Data.MaxHp;
+
+        this.AttackPrefab = _Data.AttackPrefab;
+
+        this.MoveSpeedMultiplier = _Data.MoveSpeedMultipier;
+        this.AttackSpeedMultiplier = _Data.AttackSpeedMultiplier;
+        this.DamageMultiplier = _Data.DamageMultipler;
+
+        this.StartScale = _Data.Scale;
+
+        this.Kind = _Data.Kind;
+    }
+
     public override void Die()
     {
         BattleManager.Instance.OnModuleDie(this);
@@ -21,7 +34,7 @@ public class Module : Unit
         if (Target != null && AttackPrefab != null)
         {
             Quaternion Rotation = AttackPrefab.transform.rotation;
-            GameObject AttackInstance = Instantiate(AttackPrefab, transform.position, Rotation, null);
+            GameObject AttackInstance = Instantiate(AttackPrefab.gameObject, transform.position, Rotation, null);
             if (AttackInstance != null)
                 AttackInstance.GetComponent<BaseAttack>().Setup(this);
         }

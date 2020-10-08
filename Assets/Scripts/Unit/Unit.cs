@@ -15,26 +15,30 @@ public enum ETeam
 [ExecuteInEditMode]
 abstract public class Unit : MonoBehaviour
 {
-    public Vector3 StartPos;
+    public ETeam Team;
 
     public bool Battle;
-    public float Range;
-    public float Interval;
+
     public float MaxHP;
     public float HP;
-    public float Speed;
-    public float SpeedMultiplier;
-    public ETeam Team;
+    public float MoveSpeed;
+
+    public float AttackSpeedMultiplier;
+    public float MoveSpeedMultiplier;
+    public float DamageMultiplier;
+
+    public BaseAttack AttackPrefab;
+    float AttackTimer;
     public GameObject Target;
+
     public float SpeedY = 0.0f;
     public KnockbackData knockbackData;
+
     public float StartScale;
-
-
+    public Vector3 StartPos;
 
     [HideInInspector]
     public BoxCollider Collider;
-    float AttackTimer = 0.0f;
 
     private void Awake()
     {
@@ -46,18 +50,16 @@ abstract public class Unit : MonoBehaviour
 
             StartScale = transform.localScale.x;
             StartPos = transform.position;
-            SpeedMultiplier = 1.0f;
             Collider = GetComponent<BoxCollider>();
-            AttackTimer = Interval;
             GetComponent<SpriteRenderer>().flipX = true;
 
-            Camera camera = Camera.main;
-            transform.rotation = Quaternion.LookRotation(-camera.transform.forward);
+            transform.rotation = Quaternion.LookRotation(-Camera.main.transform.forward);
 
-            float Distance = (camera.transform.position - transform.position).magnitude;
-            float Ratio = Distance / camera.transform.position.magnitude * 0.5f;
+            float Distance = (Camera.main.transform.position - transform.position).magnitude;
+            float Ratio = Distance / Camera.main.transform.position.magnitude * 0.5f;
             transform.localScale = new Vector3(StartScale, StartScale,1) * Ratio;
 
+        AttackTimer = 0f;
     }
 
     protected void Update()
@@ -105,22 +107,24 @@ abstract public class Unit : MonoBehaviour
             float Y = Mathf.Max(transform.position.y + SpeedY * Time.deltaTime, -A.y - 0.5f);
             transform.position = new Vector3(transform.position.x, Y, transform.position.z);
 
-
-            Vector3 XZTarget = new Vector3(Target.transform.position.x, 0, Target.transform.position.z);
-            Vector3 XZUnit = new Vector3(transform.position.x, 0, transform.position.z);
-            Vector3 XZDistance = XZTarget - XZUnit;
-            if (XZDistance.magnitude > Range)
+            if (AttackPrefab != null)
             {
-                Vector3 Displacement = XZDistance.normalized * Speed * SpeedMultiplier * Time.deltaTime;
-                transform.position += Displacement;
-            }
-            else
-            {
-                AttackTimer += Time.deltaTime;
-                if (AttackTimer >= Interval)
+                Vector3 XZTarget = new Vector3(Target.transform.position.x, 0, Target.transform.position.z);
+                Vector3 XZUnit = new Vector3(transform.position.x, 0, transform.position.z);
+                Vector3 XZDistance = XZTarget - XZUnit;
+                if (XZDistance.magnitude > AttackPrefab.Range)
                 {
-                    Attack();
-                    AttackTimer = 0.0f;
+                    Vector3 Displacement = XZDistance.normalized * 10 * MoveSpeedMultiplier * Time.deltaTime;
+                    transform.position += Displacement;
+                }
+                else
+                {
+                    AttackTimer += Time.deltaTime * AttackSpeedMultiplier;
+                    if (AttackTimer >= AttackPrefab.Interval)
+                    {
+                        Attack();
+                        AttackTimer = 0.0f;
+                    }
                 }
             }
         }

@@ -164,7 +164,6 @@ public class BattleManager : MonoBehaviour
         if(CurrentPhase == Phase.Battle)
         {
             CurrentWaveIndex++;
-
         }
         else if (CurrentPhase == Phase.Break)
         {
@@ -173,6 +172,8 @@ public class BattleManager : MonoBehaviour
             BattleUIManager.Instance.GridParent.SetActive(false);
             BattleStartButton.SetActive(false);
             BattleUIManager.Instance.OffModeUI();
+
+
         }
     }
     void OnGameOver()
