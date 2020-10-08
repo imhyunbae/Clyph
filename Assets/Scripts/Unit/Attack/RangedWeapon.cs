@@ -19,7 +19,7 @@ public class RangedWeapon : MonoBehaviour
 
     void FixedUpdate()
     {
-        List<Enemy> Enemies = Manager.Instance.Enemies;
+        List<Enemy> Enemies = BattleManager.Instance.Enemies;
         int Count = Enemies.Count;
         for (int i = 0; i < Count; i++)
         {

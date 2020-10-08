@@ -57,7 +57,7 @@ public class Fireball : BaseAttack
 
     void Explode()
     {
-        List<Enemy> Enemies = Manager.Instance.Enemies;
+        List<Enemy> Enemies = BattleManager.Instance.Enemies;
         for (int i = 0; i < Enemies.Count; i++)
         {
             Enemy NearUnit = Enemies[i];

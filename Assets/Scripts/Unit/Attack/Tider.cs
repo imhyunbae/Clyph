@@ -16,7 +16,7 @@ public class Tider : BaseAttack
     {
         transform.position = StartPosition;
         List<Enemy> ListTarget = new List<Enemy>();
-        foreach (var each in Manager.Instance.Enemies)
+        foreach (var each in BattleManager.Instance.Enemies)
         {
 
             if ((each.transform.position - StartPosition).magnitude < Range)

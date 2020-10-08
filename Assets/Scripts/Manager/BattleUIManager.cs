@@ -56,7 +56,7 @@ public class BattleUIManager : MonoBehaviour
 
     public void ManageMode()
     {
-        if (Manager.Instance.CurrentStage.phase == Phase.Break)
+        if (BattleManager.Instance.CurrentPhase == Phase.Break)
         {
             ManageCatergory.SetActive(true);
             GridParent.SetActive(true);
@@ -67,7 +67,7 @@ public class BattleUIManager : MonoBehaviour
 
     public void BuyMode()
     {
-        if (Manager.Instance.CurrentStage.phase == Phase.Break)
+        if (BattleManager.Instance.CurrentPhase == Phase.Break)
         {
             Hero_Pannel.SetActive(false);
             Creature_Pannel.SetActive(false);
@@ -142,7 +142,7 @@ public class BattleUIManager : MonoBehaviour
 
         HandleCreature.transform.position = _Position + new Vector3(0,0.5f,0);
         HandleCreature.StartPos = HandleCreature.transform.position;
-        Manager.Instance.RegisterUnit(BattleUIManager.Instance.HandleCreature.gameObject);
+        BattleManager.Instance.RegisterUnit(BattleUIManager.Instance.HandleCreature.gameObject);
         BattleInventory.DictionaryModule[((Module)HandleCreature).Kind]--;
 
         HandleCreature = null;
@@ -165,7 +165,7 @@ public class BattleUIManager : MonoBehaviour
         {
             HandleTimer += Time.deltaTime;
 
-            Ray ray = Manager.Instance.Camera.ScreenPointToRay(Input.mousePosition);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit = new RaycastHit();
             if (Physics.Raycast(ray, out hit, 5000000, LayerMask.GetMask("Map")))
             {
@@ -176,18 +176,22 @@ public class BattleUIManager : MonoBehaviour
 
     private void LateUpdate()
     {
-        if(Manager.Instance.CurrentStage.phase == Phase.Break)
+        if(BattleManager.Instance.CurrentPhase == Phase.Break)
         {
             LeftTime_Text.transform.parent.gameObject.SetActive(true);
-            LeftTime_Text.text = ((int)Manager.Instance.CurrentStage.Duration / 60).ToString() + " : " + ((int)Manager.Instance.CurrentStage.Duration % 60).ToString();
+
+            int LeftTime = (int)BattleManager.Instance.LeftBreakTime;
+            LeftTime_Text.text = (LeftTime / 60).ToString() + " : " + (LeftTime % 60).ToString();
 
         }
         else LeftTime_Text.transform.parent.gameObject.SetActive(false);
 
 
         SP_Text.text = "SP : " + BattleInventory.SP.ToString();
-        var waveCount = Manager.Instance.nthWave;
-        Wave_Text.text = "Wave " + waveCount.Item1.ToString() + "/" + waveCount.Item2.ToString();
+        int MaxWave = BattleManager.Instance.MaxWave;
+        int CurrentWave = BattleManager.Instance.CurrentWave;
+
+        Wave_Text.text = "Wave " + CurrentWave.ToString() + "/" + MaxWave.ToString();
 
         for (int i = 0; i < 4; i++)
             Spirit_Text[i].text = "X" + BattleInventory.SpiritCount[i].ToString();
@@ -221,6 +225,11 @@ public class BattleUIManager : MonoBehaviour
 
 
         }
+    }
+    public void OnBattleStartButtonDown()
+    {
+
+        BattleManager.Instance.SetBattlePhase(Phase.Battle);
     }
     public void SortCreatureList()
     {

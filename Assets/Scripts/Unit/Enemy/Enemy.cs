@@ -24,13 +24,13 @@ public class Enemy : Unit
     public override void Die()
     {
         BattleUIManager.Instance.BattleInventory.SP += 5;
-        Manager.Instance.OnEnemyDie(this);
+        BattleManager.Instance.OnEnemyDie(this);
         base.Die();
     }
 
     public override void SetTarget()
     {
-        if (Manager.Instance == null)
+        if (BattleManager.Instance == null)
             return;
         //  List<Module> Modules = Manager.Instance.Modules;
         //  List<IceWall> IceWalls = FindObjectsOfType<IceWall>().Where(x => x != null).ToList();
@@ -40,7 +40,7 @@ public class Enemy : Unit
         //    Objects.Add(each.gameObject);
         //foreach (IceWall each in IceWalls)
         //    Objects.Add(each.gameObject);
-        var List = Manager.Instance.Modules;
+        var List = BattleManager.Instance.Modules;
         if (List.Count == 0)
             return;
 

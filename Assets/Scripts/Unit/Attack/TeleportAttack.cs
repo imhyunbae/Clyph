@@ -15,7 +15,7 @@ public class TeleportAttack : BaseAttack
 
         StartPosition = InUnit.transform.position;
 
-        List<Enemy> Enemies = Manager.Instance.Enemies;
+        List<Enemy> Enemies = BattleManager.Instance.Enemies;
 
         Enemies.OrderBy(x => Vector3.Distance(x.transform.position, StartPosition));
 

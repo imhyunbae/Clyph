@@ -10,7 +10,7 @@ public class Module : Unit
     public ModuleData Data;
     public override void Die()
     {
-        Manager.Instance.OnModuleDie(this);
+        BattleManager.Instance.OnModuleDie(this);
         base.Die();
     }
 
@@ -29,9 +29,9 @@ public class Module : Unit
 
     public override void SetTarget()
     {
-        if (Manager.Instance == null)
+        if (BattleManager.Instance == null)
             return;
-        if (Manager.Instance.Enemies.Count == 0)
+        if (BattleManager.Instance.Enemies.Count == 0)
         {
             Target = null;
             return;
@@ -40,7 +40,7 @@ public class Module : Unit
         ///  Manager.Instance.Enemies.Sort((Enemy A, Enemy B) => Vector3.Distance(transform.position, A.transform.position).CompareTo(Vector3.Distance(transform.position, B.transform.position)));
         ///  Target = Manager.Instance.Enemies.Count > 0 ? Manager.Instance.Enemies[0].gameObject : null;
 
-        var List = Manager.Instance.Enemies;
+        var List = BattleManager.Instance.Enemies;
         if (List.Count == 0)
             return;
 

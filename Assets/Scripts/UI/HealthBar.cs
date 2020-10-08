@@ -24,6 +24,6 @@ public class HealthBar : MonoBehaviour
 
         HealthSlider.value = Owner.HP / Owner.MaxHP;
         Vector3 Offset = new Vector3(0, Owner.GetComponent<SpriteRenderer>().bounds.extents.y + 0.05f, 0.0f);
-        transform.position = Manager.Instance.Camera.WorldToScreenPoint(Owner.transform.position + Offset);
+        transform.position = Camera.main.WorldToScreenPoint(Owner.transform.position + Offset);
     }
 }
